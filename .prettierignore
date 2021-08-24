@@ -1,0 +1,7 @@
+.next
+.vscode
+.yarn
+.eslintrc.json
+.pnp.cjs
+next-env.d.ts
+yarn.lock
