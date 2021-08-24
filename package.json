@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "echo 'Not implemented'",
     "postinstall": "husky install"
   },
   "dependencies": {
