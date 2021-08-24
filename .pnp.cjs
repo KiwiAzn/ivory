@@ -38,6 +38,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chakra-ui/react", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:1.6.6"],
             ["@emotion/react", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:11.4.1"],
             ["@emotion/styled", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:11.3.0"],
+            ["@fontsource/permanent-marker", "npm:4.5.0"],
             ["@types/node", "npm:16.7.1"],
             ["@types/react", "npm:17.0.19"],
             ["eslint", "npm:7.32.0"],
@@ -2065,6 +2066,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["js-yaml", "npm:3.14.1"],
             ["minimatch", "npm:3.0.4"],
             ["strip-json-comments", "npm:3.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@fontsource/permanent-marker", [
+        ["npm:4.5.0", {
+          "packageLocation": "./.yarn/cache/@fontsource-permanent-marker-npm-4.5.0-b9fdd0a391-568c009579.zip/node_modules/@fontsource/permanent-marker/",
+          "packageDependencies": [
+            ["@fontsource/permanent-marker", "npm:4.5.0"]
           ],
           "linkType": "HARD",
         }]
@@ -5322,6 +5332,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chakra-ui/react", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:1.6.6"],
             ["@emotion/react", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:11.4.1"],
             ["@emotion/styled", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:11.3.0"],
+            ["@fontsource/permanent-marker", "npm:4.5.0"],
             ["@types/node", "npm:16.7.1"],
             ["@types/react", "npm:17.0.19"],
             ["eslint", "npm:7.32.0"],
