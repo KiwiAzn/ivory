@@ -49,6 +49,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.3.2"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:17.0.2"],
+            ["rpg-dice-roller", "npm:5.0.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -3360,6 +3361,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["complex.js", [
+        ["npm:2.0.15", {
+          "packageLocation": "./.yarn/cache/complex.js-npm-2.0.15-92b02e0853-f39b4ee8f8.zip/node_modules/complex.js/",
+          "packageDependencies": [
+            ["complex.js", "npm:2.0.15"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["compute-scroll-into-view", [
         ["npm:1.0.14", {
           "packageLocation": "./.yarn/cache/compute-scroll-into-view-npm-1.0.14-307ff057a8-863925bf8d.zip/node_modules/compute-scroll-into-view/",
@@ -3688,6 +3698,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["decimal.js", [
+        ["npm:10.3.1", {
+          "packageLocation": "./.yarn/cache/decimal.js-npm-10.3.1-797c736b6c-0351ac9f05.zip/node_modules/decimal.js/",
+          "packageDependencies": [
+            ["decimal.js", "npm:10.3.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["deep-is", [
         ["npm:0.1.3", {
           "packageLocation": "./.yarn/cache/deep-is-npm-0.1.3-0941784645-c15b04c384.zip/node_modules/deep-is/",
@@ -3951,6 +3970,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/escalade-npm-3.1.1-e02da076aa-a3e2a99f07.zip/node_modules/escalade/",
           "packageDependencies": [
             ["escalade", "npm:3.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["escape-latex", [
+        ["npm:1.2.0", {
+          "packageLocation": "./.yarn/cache/escape-latex-npm-1.2.0-1481ca81a7-73a787319f.zip/node_modules/escape-latex/",
+          "packageDependencies": [
+            ["escape-latex", "npm:1.2.0"]
           ],
           "linkType": "HARD",
         }]
@@ -4539,6 +4567,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/foreach-npm-2.0.5-9fbfc73114-dab4fbfef0.zip/node_modules/foreach/",
           "packageDependencies": [
             ["foreach", "npm:2.0.5"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["fraction.js", [
+        ["npm:4.1.1", {
+          "packageLocation": "./.yarn/cache/fraction.js-npm-4.1.1-17f3b8b11b-e5a1f81d73.zip/node_modules/fraction.js/",
+          "packageDependencies": [
+            ["fraction.js", "npm:4.1.1"]
           ],
           "linkType": "HARD",
         }]
@@ -5367,9 +5404,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.3.2"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:17.0.2"],
+            ["rpg-dice-roller", "npm:5.0.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
+        }]
+      ]],
+      ["javascript-natural-sort", [
+        ["npm:0.7.1", {
+          "packageLocation": "./.yarn/cache/javascript-natural-sort-npm-0.7.1-9018625996-161e2c512c.zip/node_modules/javascript-natural-sort/",
+          "packageDependencies": [
+            ["javascript-natural-sort", "npm:0.7.1"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["jest-worker", [
@@ -5654,6 +5701,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["promise-retry", "npm:2.0.1"],
             ["socks-proxy-agent", "npm:5.0.1"],
             ["ssri", "npm:8.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["mathjs", [
+        ["npm:9.4.4", {
+          "packageLocation": "./.yarn/cache/mathjs-npm-9.4.4-6e7221112d-3fdaca4d0e.zip/node_modules/mathjs/",
+          "packageDependencies": [
+            ["mathjs", "npm:9.4.4"],
+            ["@babel/runtime", "npm:7.15.3"],
+            ["complex.js", "npm:2.0.15"],
+            ["decimal.js", "npm:10.3.1"],
+            ["escape-latex", "npm:1.2.0"],
+            ["fraction.js", "npm:4.1.1"],
+            ["javascript-natural-sort", "npm:0.7.1"],
+            ["seedrandom", "npm:3.0.5"],
+            ["tiny-emitter", "npm:2.1.0"],
+            ["typed-function", "npm:2.0.0"]
           ],
           "linkType": "HARD",
         }]
@@ -6699,6 +6764,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["random-js", [
+        ["npm:2.1.0", {
+          "packageLocation": "./.yarn/cache/random-js-npm-2.1.0-839113aa92-cdee38c303.zip/node_modules/random-js/",
+          "packageDependencies": [
+            ["random-js", "npm:2.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["randombytes", [
         ["npm:2.1.0", {
           "packageLocation": "./.yarn/cache/randombytes-npm-2.1.0-e3da76bccf-d779499376.zip/node_modules/randombytes/",
@@ -7095,6 +7169,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["rpg-dice-roller", [
+        ["npm:5.0.0", {
+          "packageLocation": "./.yarn/cache/rpg-dice-roller-npm-5.0.0-954cae1587-143be45f69.zip/node_modules/rpg-dice-roller/",
+          "packageDependencies": [
+            ["rpg-dice-roller", "npm:5.0.0"],
+            ["mathjs", "npm:9.4.4"],
+            ["random-js", "npm:2.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["run-parallel", [
         ["npm:1.2.0", {
           "packageLocation": "./.yarn/cache/run-parallel-npm-1.2.0-3f47ff2034-cb4f97ad25.zip/node_modules/run-parallel/",
@@ -7137,6 +7222,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["scheduler", "npm:0.20.2"],
             ["loose-envify", "npm:1.4.0"],
             ["object-assign", "npm:4.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["seedrandom", [
+        ["npm:3.0.5", {
+          "packageLocation": "./.yarn/cache/seedrandom-npm-3.0.5-6946e8f8db-728b56bc3b.zip/node_modules/seedrandom/",
+          "packageDependencies": [
+            ["seedrandom", "npm:3.0.5"]
           ],
           "linkType": "HARD",
         }]
@@ -7764,6 +7858,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["tiny-emitter", [
+        ["npm:2.1.0", {
+          "packageLocation": "./.yarn/cache/tiny-emitter-npm-2.1.0-2a4d94f487-fbcfb51457.zip/node_modules/tiny-emitter/",
+          "packageDependencies": [
+            ["tiny-emitter", "npm:2.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["tiny-invariant", [
         ["npm:1.1.0", {
           "packageLocation": "./.yarn/cache/tiny-invariant-npm-1.1.0-105cc1fc8e-27d29bbb9e.zip/node_modules/tiny-invariant/",
@@ -7947,6 +8050,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/type-fest-npm-0.7.1-7b37912923-5b1b113529.zip/node_modules/type-fest/",
           "packageDependencies": [
             ["type-fest", "npm:0.7.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["typed-function", [
+        ["npm:2.0.0", {
+          "packageLocation": "./.yarn/cache/typed-function-npm-2.0.0-6a33283314-8abb39dff0.zip/node_modules/typed-function/",
+          "packageDependencies": [
+            ["typed-function", "npm:2.0.0"]
           ],
           "linkType": "HARD",
         }]

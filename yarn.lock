@@ -87,7 +87,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.7.2":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.7.2":
   version: 7.15.3
   resolution: "@babel/runtime@npm:7.15.3"
   dependencies:
@@ -2129,6 +2129,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"complex.js@npm:^2.0.15":
+  version: 2.0.15
+  resolution: "complex.js@npm:2.0.15"
+  checksum: f39b4ee8f8c507f896e0a0ff440fa52074c15fc4476644c5db730f5da8e6e81a010ef90ea9eda907758737062c944ac6abd4783ff14978a8976aa41e56572e12
+  languageName: node
+  linkType: hard
+
 "compute-scroll-into-view@npm:1.0.14":
   version: 1.0.14
   resolution: "compute-scroll-into-view@npm:1.0.14"
@@ -2377,6 +2384,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"decimal.js@npm:^10.3.1":
+  version: 10.3.1
+  resolution: "decimal.js@npm:10.3.1"
+  checksum: 0351ac9f05fe050f23227aa6a4573bee2d58fa7378fcf28d969a8c789525032effb488a90320fd3fe86a66e17b4bc507d811b15eada5b7f0e7ec5d2af4c24a59
+  languageName: node
+  linkType: hard
+
 "deep-is@npm:^0.1.3":
   version: 0.1.3
   resolution: "deep-is@npm:0.1.3"
@@ -2607,6 +2621,13 @@ __metadata:
   version: 3.1.1
   resolution: "escalade@npm:3.1.1"
   checksum: a3e2a99f07acb74b3ad4989c48ca0c3140f69f923e56d0cba0526240ee470b91010f9d39001f2a4a313841d237ede70a729e92125191ba5d21e74b106800b133
+  languageName: node
+  linkType: hard
+
+"escape-latex@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "escape-latex@npm:1.2.0"
+  checksum: 73a787319f0965ecb8244bb38bf3a3cba872f0b9a5d3da8821140e9f39fe977045dc953a62b1a2bed4d12bfccbe75a7d8ec786412bf00739eaa2f627d0a8e0d6
   languageName: node
   linkType: hard
 
@@ -3068,6 +3089,13 @@ __metadata:
   version: 2.0.5
   resolution: "foreach@npm:2.0.5"
   checksum: dab4fbfef0b40b69ee5eab81bcb9626b8fa8b3469c8cfa26480f3e5e1ee08c40eae07048c9a967c65aeda26e774511ccc70b3f10a604c01753c6ef24361f0fc8
+  languageName: node
+  linkType: hard
+
+"fraction.js@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "fraction.js@npm:4.1.1"
+  checksum: e5a1f81d73e32aabf4fbd6581a7b3dfabd9a449ceb97c7e71ed2931dd0607095622341100d7819741eb9b435eb4e0d4a040a69e411dc943fa9b3a3872f3a2e0f
   languageName: node
   linkType: hard
 
@@ -3795,9 +3823,17 @@ fsevents@~2.3.1:
     prettier: ^2.3.2
     react: 17.0.2
     react-dom: 17.0.2
+    rpg-dice-roller: ^5.0.0
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
+
+"javascript-natural-sort@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "javascript-natural-sort@npm:0.7.1"
+  checksum: 161e2c512cc7884bc055a582c6645d9032cab88497a76123d73cb23bfb03d97a04cf7772ecdb8bd3366fc07192c2f996366f479f725c23ef073fffe03d6a586a
+  languageName: node
+  linkType: hard
 
 "jest-worker@npm:27.0.0-next.5":
   version: 27.0.0-next.5
@@ -4055,6 +4091,25 @@ fsevents@~2.3.1:
     socks-proxy-agent: ^5.0.0
     ssri: ^8.0.0
   checksum: 326fefde1aec1f1314e548be74baaaa322208718d1b51c9688a326f73dea70f57767b4f5423230e39408cfe7c6dcf7adcf86ca4798c919c3ea78f54532910434
+  languageName: node
+  linkType: hard
+
+"mathjs@npm:^9.3.2":
+  version: 9.4.4
+  resolution: "mathjs@npm:9.4.4"
+  dependencies:
+    "@babel/runtime": ^7.14.6
+    complex.js: ^2.0.15
+    decimal.js: ^10.3.1
+    escape-latex: ^1.2.0
+    fraction.js: ^4.1.1
+    javascript-natural-sort: ^0.7.1
+    seedrandom: ^3.0.5
+    tiny-emitter: ^2.1.0
+    typed-function: ^2.0.0
+  bin:
+    mathjs: bin/cli.js
+  checksum: 3fdaca4d0e8b73c1e75c87023101d8d047ccec395743c80f24031b7523fc8f2209f8bc572c603d8a8ba4e8b977f240e987f72902e48cce6ff261b3f904fefd5b
   languageName: node
   linkType: hard
 
@@ -4977,6 +5032,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"random-js@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "random-js@npm:2.1.0"
+  checksum: cdee38c303aafe441bd7809810b9dff9f6fdd9f356775bbd7e138943c0bc782a5f0ab473d3fac9d58da759d3976c1eef421d8a3f76f56301c805cc11bc496a11
+  languageName: node
+  linkType: hard
+
 "randombytes@npm:^2.0.0, randombytes@npm:^2.0.1, randombytes@npm:^2.0.5":
   version: 2.1.0
   resolution: "randombytes@npm:2.1.0"
@@ -5307,6 +5369,16 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"rpg-dice-roller@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "rpg-dice-roller@npm:5.0.0"
+  dependencies:
+    mathjs: ^9.3.2
+    random-js: ^2.1.0
+  checksum: 143be45f69234dde113b5f968f84b64d4009fa65ccb4eecbab286a289b27447fcfcbfcff134f81cfd307936ad6069b75a9a8b56c4e800b0473f5777eb1be68c1
+  languageName: node
+  linkType: hard
+
 "run-parallel@npm:^1.1.9":
   version: 1.2.0
   resolution: "run-parallel@npm:1.2.0"
@@ -5344,6 +5416,13 @@ resolve@^2.0.0-next.3:
     loose-envify: ^1.1.0
     object-assign: ^4.1.1
   checksum: c4b35cf967c8f0d3e65753252d0f260271f81a81e427241295c5a7b783abf4ea9e905f22f815ab66676f5313be0a25f47be582254db8f9241b259213e999b8fc
+  languageName: node
+  linkType: hard
+
+"seedrandom@npm:^3.0.5":
+  version: 3.0.5
+  resolution: "seedrandom@npm:3.0.5"
+  checksum: 728b56bc3bc1b9ddeabd381e449b51cb31bdc0aa86e27fcd0190cea8c44613d5bcb2f6bb63ed79f78180cbe791c20b8ec31a9627f7b7fc7f476fd2bdb7e2da9f
   languageName: node
   linkType: hard
 
@@ -5902,6 +5981,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"tiny-emitter@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "tiny-emitter@npm:2.1.0"
+  checksum: fbcfb5145751a0e3b109507a828eb6d6d4501352ab7bb33eccef46e22e9d9ad3953158870a6966a59e57ab7c3f9cfac7cab8521db4de6a5e757012f4677df2dd
+  languageName: node
+  linkType: hard
+
 "tiny-invariant@npm:^1.0.6":
   version: 1.1.0
   resolution: "tiny-invariant@npm:1.1.0"
@@ -6042,6 +6128,13 @@ resolve@^2.0.0-next.3:
   version: 0.7.1
   resolution: "type-fest@npm:0.7.1"
   checksum: 5b1b113529d59949d97b76977d545989ddc11b81bb0c766b6d2ccc65473cb4b4a5c7d24f5be2c2bb2de302a5d7a13c1732ea1d34c8c59b7e0ec1f890cf7fc424
+  languageName: node
+  linkType: hard
+
+"typed-function@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "typed-function@npm:2.0.0"
+  checksum: 8abb39dff088706f454cd3fa3e884ed98b61f28fcae6ea8b0f3b83225ca130d0ee5ab20acc91f820b41773532f0fd4308e25b5b346c9ab6a626bd8b4e83c59dc
   languageName: node
   linkType: hard
 

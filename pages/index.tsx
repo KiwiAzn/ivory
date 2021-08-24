@@ -1,25 +1,22 @@
-import { Box, Center, Container, Heading, Text } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
+import DiceRoller from "../components/DiceRoller";
+import Hero from "../components/Hero";
 
 const Home: NextPage = () => {
   return (
+    <div>
+      <Head>
+        <title>Ivory - RPG dicer roller built for the web</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
     <Container>
-      <Hero></Hero>
+      <Hero/>
+      <DiceRoller></DiceRoller>
     </Container>
+    </div>
   );
 };
 
 export default Home;
-
-const Hero: React.FunctionComponent = () => (
-  <Center>
-    <Box>
-      <Heading as="h1" size="4xl" fontFamily="Permanent Marker">
-        Ivory
-      </Heading>
-      <Text fontSize="xl">RPG dice roller built for the web</Text>
-    </Box>
-  </Center>
-);
