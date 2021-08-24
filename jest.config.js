@@ -19,7 +19,7 @@ module.exports = {
     // rpg-dice-roller
     "^rpg-dice-roller": 'rpg-dice-roller/lib/umd/bundle.js'
   },
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
   testEnvironment: 'jsdom',
   transform: {
