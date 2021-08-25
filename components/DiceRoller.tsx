@@ -9,11 +9,14 @@ import {
   StackDivider,
   FormControl,
   FormHelperText,
-  HelpTextProps,  
+  HelpTextProps,
+  InputRightElement,
+  InputGroup,  
 } from "@chakra-ui/react";
 import { DiceRoll } from "rpg-dice-roller";
 import React, { ChangeEventHandler, KeyboardEventHandler, useState } from "react";
 import { FormattedMessage } from "react-intl";
+import { WarningTwoIcon } from "@chakra-ui/icons";
 
 const HelperTextError: React.FunctionComponent<HelpTextProps> = (props) => (
   <FormHelperText color='red.500' {...props}/>  
@@ -28,30 +31,32 @@ const DiceRoller = () => {
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const diceNotation = event.target.value;    
     setCurrentNotation(diceNotation);
-    if(isInvalid && diceNotation) {
+    if(isInvalid && !!diceNotation) {
       try {
         new DiceRoll(diceNotation);
         setIsInvalid(false);
       } catch (error) {
-        if(error.name === 'SyntaxError') {
-          setIsInvalid(true);
-        } else {
-          throw error;
-        }
+        switch(error.name) {
+          case 'SyntaxError':
+            return setIsInvalid(true);
+          default:
+            throw error;            
+        }        
       }
     }
   }
 
   const handleKeyDown:KeyboardEventHandler<HTMLInputElement> = ({key}) => {
-    if(key === 'Enter') {
+    if(key === 'Enter' && !!currentNotation) {
       try {
         const newDiceRoll = new DiceRoll(currentNotation);
         setPreviousDiceRolls([newDiceRoll, ...previousDiceRolls]);
       } catch (error) {
-        if(error.name === 'SyntaxError') {
-          setIsInvalid(true);
-        } else {
-          throw error;
+        switch(error.name) {
+          case 'SyntaxError':
+            return setIsInvalid(true);
+          default:
+            throw error;            
         }
       }
     }
@@ -60,14 +65,19 @@ const DiceRoller = () => {
   return (
     <VStack spacing="4" align="stretch">
       <FormControl id='diceNotation'>
-        <Input
-          placeholder="3d6+10"
-          value={currentNotation}
-          role='textbox'
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          isInvalid={isInvalid}
-        />
+        <InputGroup>
+          <Input          
+            placeholder="3d6+10"
+            value={currentNotation}
+            role='textbox'
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            isInvalid={isInvalid}
+          />
+          {isInvalid &&  <InputRightElement>
+            <WarningTwoIcon color='red.500'/>
+          </InputRightElement> }
+        </InputGroup>
         {isInvalid && <HelperTextError>
           <FormattedMessage
             id='diceNotation.invalidInput'

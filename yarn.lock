@@ -696,6 +696,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chakra-ui/icons@npm:^1.0.15":
+  version: 1.0.15
+  resolution: "@chakra-ui/icons@npm:1.0.15"
+  dependencies:
+    "@chakra-ui/icon": 1.1.11
+    "@types/react": ^17.0.0
+  peerDependencies:
+    "@chakra-ui/system": ">=1.0.0"
+    react: ">=16.8.6"
+  checksum: b63a640875451e66730c9e49812e38dfeaf877d1ea6da3d2a41709bf87f113138eea9f067d749dbd901bb4a2666c90ccfe539fde16f4102d4bc4b600e66b17b2
+  languageName: node
+  linkType: hard
+
 "@chakra-ui/image@npm:1.0.18":
   version: 1.0.18
   resolution: "@chakra-ui/image@npm:1.0.18"
@@ -1080,7 +1093,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/system@npm:1.7.2":
+"@chakra-ui/system@npm:1.7.2, @chakra-ui/system@npm:^1.7.2":
   version: 1.7.2
   resolution: "@chakra-ui/system@npm:1.7.2"
   dependencies:
@@ -2187,7 +2200,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:17, @types/react@npm:17.0.19":
+"@types/react@npm:*, @types/react@npm:17, @types/react@npm:17.0.19, @types/react@npm:^17.0.0":
   version: 17.0.19
   resolution: "@types/react@npm:17.0.19"
   dependencies:
@@ -5408,7 +5421,9 @@ __metadata:
   resolution: "ivory@workspace:."
   dependencies:
     "@babel/runtime": ^7.15.3
+    "@chakra-ui/icons": ^1.0.15
     "@chakra-ui/react": ^1.6.6
+    "@chakra-ui/system": ^1.7.2
     "@emotion/react": ^11
     "@emotion/styled": ^11
     "@fontsource/permanent-marker": ^4.5.0
