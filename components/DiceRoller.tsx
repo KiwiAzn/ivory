@@ -6,10 +6,18 @@ import {
   Text,
   Flex,
   Spacer,
-  StackDivider,  
+  StackDivider,
+  FormControl,
+  FormHelperText,
+  HelpTextProps,  
 } from "@chakra-ui/react";
 import { DiceRoll } from "rpg-dice-roller";
 import React, { ChangeEventHandler, KeyboardEventHandler, useState } from "react";
+import { FormattedMessage } from "react-intl";
+
+const HelperTextError: React.FunctionComponent<HelpTextProps> = (props) => (
+  <FormHelperText color='red.500' {...props}/>  
+);
 
 const DiceRoller = () => {
   const [previousDiceRolls, setPreviousDiceRolls] =
@@ -18,10 +26,11 @@ const DiceRoller = () => {
   const [isInvalid, setIsInvalid] = useState<boolean>(false);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setCurrentNotation(event.target.value)
-    if(isInvalid) {
+    const diceNotation = event.target.value;    
+    setCurrentNotation(diceNotation);
+    if(isInvalid && diceNotation) {
       try {
-        new DiceRoll(event.target.value);
+        new DiceRoll(diceNotation);
         setIsInvalid(false);
       } catch (error) {
         if(error.name === 'SyntaxError') {
@@ -50,14 +59,22 @@ const DiceRoller = () => {
 
   return (
     <VStack spacing="4" align="stretch">
-      <Input
-        placeholder="3d6+10"
-        value={currentNotation}
-        role='textbox'
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        isInvalid={isInvalid}
-      />
+      <FormControl id='diceNotation'>
+        <Input
+          placeholder="3d6+10"
+          value={currentNotation}
+          role='textbox'
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          isInvalid={isInvalid}
+        />
+        {isInvalid && <HelperTextError>
+          <FormattedMessage
+            id='diceNotation.invalidInput'
+            defaultMessage='Please enter a valid dice notation'
+          />
+        </HelperTextError>}
+      </FormControl>
       <VStack divider={<StackDivider />} spacing={4} align="stretch" role='list'>
         {previousDiceRolls.map(({ notation, rolls, total }, index) => (
           <Flex key={index} role='listitem'>
