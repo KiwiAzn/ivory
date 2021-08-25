@@ -61,6 +61,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.3.2"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:17.0.2"],
+            ["react-intl", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:5.20.10"],
             ["react-test-renderer", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:17.0.2"],
             ["rpg-dice-roller", "npm:5.0.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
@@ -2973,6 +2974,115 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@formatjs/ecma402-abstract", [
+        ["npm:1.9.8", {
+          "packageLocation": "./.yarn/cache/@formatjs-ecma402-abstract-npm-1.9.8-dc2c75bfc1-900e6da123.zip/node_modules/@formatjs/ecma402-abstract/",
+          "packageDependencies": [
+            ["@formatjs/ecma402-abstract", "npm:1.9.8"],
+            ["@formatjs/intl-localematcher", "npm:0.2.20"],
+            ["tslib", "npm:2.3.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@formatjs/fast-memoize", [
+        ["npm:1.2.0", {
+          "packageLocation": "./.yarn/cache/@formatjs-fast-memoize-npm-1.2.0-61708de15d-fbc94672c4.zip/node_modules/@formatjs/fast-memoize/",
+          "packageDependencies": [
+            ["@formatjs/fast-memoize", "npm:1.2.0"],
+            ["tslib", "npm:2.3.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@formatjs/icu-messageformat-parser", [
+        ["npm:2.0.11", {
+          "packageLocation": "./.yarn/cache/@formatjs-icu-messageformat-parser-npm-2.0.11-5936c52f5c-7526c19542.zip/node_modules/@formatjs/icu-messageformat-parser/",
+          "packageDependencies": [
+            ["@formatjs/icu-messageformat-parser", "npm:2.0.11"],
+            ["@formatjs/ecma402-abstract", "npm:1.9.8"],
+            ["@formatjs/icu-skeleton-parser", "npm:1.2.12"],
+            ["tslib", "npm:2.3.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@formatjs/icu-skeleton-parser", [
+        ["npm:1.2.12", {
+          "packageLocation": "./.yarn/cache/@formatjs-icu-skeleton-parser-npm-1.2.12-68bae9f947-8c1abc18bb.zip/node_modules/@formatjs/icu-skeleton-parser/",
+          "packageDependencies": [
+            ["@formatjs/icu-skeleton-parser", "npm:1.2.12"],
+            ["@formatjs/ecma402-abstract", "npm:1.9.8"],
+            ["tslib", "npm:2.3.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@formatjs/intl", [
+        ["npm:1.14.1", {
+          "packageLocation": "./.yarn/cache/@formatjs-intl-npm-1.14.1-6a126732ca-a77484bde7.zip/node_modules/@formatjs/intl/",
+          "packageDependencies": [
+            ["@formatjs/intl", "npm:1.14.1"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:d6afb5d5d54a1393840ec4ac8dec5c7b670dd70c936ea7d9dc9daf8b243fb213d33aca5c54c52e7f6ae36f73df7d66fe85a5306ec80a9fd286ee6711e33f7406#npm:1.14.1", {
+          "packageLocation": "./.yarn/__virtual__/@formatjs-intl-virtual-a2ec0b4df9/0/cache/@formatjs-intl-npm-1.14.1-6a126732ca-a77484bde7.zip/node_modules/@formatjs/intl/",
+          "packageDependencies": [
+            ["@formatjs/intl", "virtual:d6afb5d5d54a1393840ec4ac8dec5c7b670dd70c936ea7d9dc9daf8b243fb213d33aca5c54c52e7f6ae36f73df7d66fe85a5306ec80a9fd286ee6711e33f7406#npm:1.14.1"],
+            ["@formatjs/ecma402-abstract", "npm:1.9.8"],
+            ["@formatjs/fast-memoize", "npm:1.2.0"],
+            ["@formatjs/icu-messageformat-parser", "npm:2.0.11"],
+            ["@formatjs/intl-displaynames", "npm:5.2.3"],
+            ["@formatjs/intl-listformat", "npm:6.3.3"],
+            ["@types/node", null],
+            ["@types/typescript", null],
+            ["intl-messageformat", "npm:9.9.1"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "packagePeers": [
+            "@types/node",
+            "@types/typescript",
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@formatjs/intl-displaynames", [
+        ["npm:5.2.3", {
+          "packageLocation": "./.yarn/cache/@formatjs-intl-displaynames-npm-5.2.3-d2118bdd11-8979787d1f.zip/node_modules/@formatjs/intl-displaynames/",
+          "packageDependencies": [
+            ["@formatjs/intl-displaynames", "npm:5.2.3"],
+            ["@formatjs/ecma402-abstract", "npm:1.9.8"],
+            ["@formatjs/intl-localematcher", "npm:0.2.20"],
+            ["tslib", "npm:2.3.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@formatjs/intl-listformat", [
+        ["npm:6.3.3", {
+          "packageLocation": "./.yarn/cache/@formatjs-intl-listformat-npm-6.3.3-4c8d13e19c-38a8df0b58.zip/node_modules/@formatjs/intl-listformat/",
+          "packageDependencies": [
+            ["@formatjs/intl-listformat", "npm:6.3.3"],
+            ["@formatjs/ecma402-abstract", "npm:1.9.8"],
+            ["@formatjs/intl-localematcher", "npm:0.2.20"],
+            ["tslib", "npm:2.3.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@formatjs/intl-localematcher", [
+        ["npm:0.2.20", {
+          "packageLocation": "./.yarn/cache/@formatjs-intl-localematcher-npm-0.2.20-0d0d2e61f9-758d3678a4.zip/node_modules/@formatjs/intl-localematcher/",
+          "packageDependencies": [
+            ["@formatjs/intl-localematcher", "npm:0.2.20"],
+            ["tslib", "npm:2.3.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@hapi/accept", [
         ["npm:5.0.2", {
           "packageLocation": "./.yarn/cache/@hapi-accept-npm-5.0.2-cfe21ffd1e-8088cbc245.zip/node_modules/@hapi/accept/",
@@ -3707,6 +3817,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@types/graceful-fs", "npm:4.1.5"],
             ["@types/node", "npm:16.7.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/hoist-non-react-statics", [
+        ["npm:3.3.1", {
+          "packageLocation": "./.yarn/cache/@types-hoist-non-react-statics-npm-3.3.1-c0081332b2-2c0778570d.zip/node_modules/@types/hoist-non-react-statics/",
+          "packageDependencies": [
+            ["@types/hoist-non-react-statics", "npm:3.3.1"],
+            ["@types/react", "npm:17.0.19"],
+            ["hoist-non-react-statics", "npm:3.3.2"]
           ],
           "linkType": "HARD",
         }]
@@ -7299,6 +7420,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["intl-messageformat", [
+        ["npm:9.9.1", {
+          "packageLocation": "./.yarn/cache/intl-messageformat-npm-9.9.1-27de48d2e6-cec73d5d25.zip/node_modules/intl-messageformat/",
+          "packageDependencies": [
+            ["intl-messageformat", "npm:9.9.1"],
+            ["@formatjs/fast-memoize", "npm:1.2.0"],
+            ["@formatjs/icu-messageformat-parser", "npm:2.0.11"],
+            ["tslib", "npm:2.3.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["invariant", [
         ["npm:2.2.4", {
           "packageLocation": "./.yarn/cache/invariant-npm-2.2.4-717fbdb119-cc3182d793.zip/node_modules/invariant/",
@@ -7723,6 +7856,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["prettier", "npm:2.3.2"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:17.0.2"],
+            ["react-intl", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:5.20.10"],
             ["react-test-renderer", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:17.0.2"],
             ["rpg-dice-roller", "npm:5.0.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
@@ -10131,6 +10265,41 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [
             "@types/react",
             "react"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["react-intl", [
+        ["npm:5.20.10", {
+          "packageLocation": "./.yarn/cache/react-intl-npm-5.20.10-322eac2aba-6c2971b5ba.zip/node_modules/react-intl/",
+          "packageDependencies": [
+            ["react-intl", "npm:5.20.10"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:5.20.10", {
+          "packageLocation": "./.yarn/__virtual__/react-intl-virtual-d6afb5d5d5/0/cache/react-intl-npm-5.20.10-322eac2aba-6c2971b5ba.zip/node_modules/react-intl/",
+          "packageDependencies": [
+            ["react-intl", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:5.20.10"],
+            ["@formatjs/ecma402-abstract", "npm:1.9.8"],
+            ["@formatjs/icu-messageformat-parser", "npm:2.0.11"],
+            ["@formatjs/intl", "virtual:d6afb5d5d54a1393840ec4ac8dec5c7b670dd70c936ea7d9dc9daf8b243fb213d33aca5c54c52e7f6ae36f73df7d66fe85a5306ec80a9fd286ee6711e33f7406#npm:1.14.1"],
+            ["@formatjs/intl-displaynames", "npm:5.2.3"],
+            ["@formatjs/intl-listformat", "npm:6.3.3"],
+            ["@types/hoist-non-react-statics", "npm:3.3.1"],
+            ["@types/react", "npm:17.0.19"],
+            ["@types/typescript", null],
+            ["hoist-non-react-statics", "npm:3.3.2"],
+            ["intl-messageformat", "npm:9.9.1"],
+            ["react", "npm:17.0.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "packagePeers": [
+            "@types/react",
+            "@types/typescript",
+            "react",
+            "typescript"
           ],
           "linkType": "HARD",
         }]

@@ -20,6 +20,7 @@
     "next": "11.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-intl": "^5.20.10",
     "rpg-dice-roller": "^5.0.0"
   },
   "devDependencies": {
