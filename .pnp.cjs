@@ -58,6 +58,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:7.0.1"],
             ["identity-obj-proxy", "npm:3.0.0"],
             ["jest", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:27.0.6"],
+            ["jotai", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:1.3.1"],
             ["lint-staged", "npm:11.1.2"],
             ["next", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:11.1.0"],
             ["prettier", "npm:2.3.2"],
@@ -7883,6 +7884,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:7.0.1"],
             ["identity-obj-proxy", "npm:3.0.0"],
             ["jest", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:27.0.6"],
+            ["jotai", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:1.3.1"],
             ["lint-staged", "npm:11.1.2"],
             ["next", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:11.1.0"],
             ["prettier", "npm:2.3.2"],
@@ -8462,6 +8464,56 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.7.1"],
             ["merge-stream", "npm:2.0.0"],
             ["supports-color", "npm:8.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["jotai", [
+        ["npm:1.3.1", {
+          "packageLocation": "./.yarn/cache/jotai-npm-1.3.1-b6929ce370-349268234e.zip/node_modules/jotai/",
+          "packageDependencies": [
+            ["jotai", "npm:1.3.1"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:1.3.1", {
+          "packageLocation": "./.yarn/__virtual__/jotai-virtual-faa0365e05/0/cache/jotai-npm-1.3.1-b6929ce370-349268234e.zip/node_modules/jotai/",
+          "packageDependencies": [
+            ["jotai", "virtual:df020d55e68817f2820b87a107c628692e62e627cfad71b696a67d73dfa547159f4fbf49ae21a156be04708d3ae1f438c7555cf9b8387b5c591182225ce61269#npm:1.3.1"],
+            ["@types/immer", null],
+            ["@types/optics-ts", null],
+            ["@types/react", "npm:17.0.19"],
+            ["@types/react-query", null],
+            ["@types/urql__core", null],
+            ["@types/valtio", null],
+            ["@types/wonka", null],
+            ["@types/xstate", null],
+            ["@urql/core", null],
+            ["immer", null],
+            ["optics-ts", null],
+            ["react", "npm:17.0.2"],
+            ["react-query", null],
+            ["valtio", null],
+            ["wonka", null],
+            ["xstate", null]
+          ],
+          "packagePeers": [
+            "@types/immer",
+            "@types/optics-ts",
+            "@types/react-query",
+            "@types/react",
+            "@types/urql__core",
+            "@types/valtio",
+            "@types/wonka",
+            "@types/xstate",
+            "@urql/core",
+            "immer",
+            "optics-ts",
+            "react-query",
+            "react",
+            "valtio",
+            "wonka",
+            "xstate"
           ],
           "linkType": "HARD",
         }]

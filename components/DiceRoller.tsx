@@ -14,10 +14,12 @@ import {
   InputGroup,  
 } from "@chakra-ui/react";
 import { DiceRoll } from "rpg-dice-roller";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent } from "react";
 import { FormattedMessage } from "react-intl";
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { SubmitHandler, useForm } from "react-hook-form";
+import {useAtom} from 'jotai';
+import { diceNotationHistoryAtom, diceRollsAtom } from "./atoms";
 
 const HelperTextError: React.FunctionComponent<HelpTextProps> = (props) => (
   <FormHelperText color='red.500' {...props}/>  
@@ -45,14 +47,17 @@ const validateDiceNotation = (value: string) => {
 };
 
 const DiceRoller: FunctionComponent = () => {
-  const [previousDiceRolls, setPreviousDiceRolls] =
-    useState<Array<DiceRoll>>([]);
-
+  const [diceNotationHistory, setDiceNotationHistory] = useAtom(diceNotationHistoryAtom);
+  const [previousDiceRolls, setPreviousDiceRolls] = useAtom(diceRollsAtom);
   const { register, handleSubmit, formState: {errors}} = useForm<FormValues>({reValidateMode:'onSubmit'});
 
   const onSubmit: SubmitHandler<FormValues> = ({diceNotation}) => {
     const newDiceRoll = new DiceRoll(diceNotation)
     setPreviousDiceRolls([newDiceRoll, ...previousDiceRolls]);
+    setDiceNotationHistory((previousNotationHistory) =>{
+      const newCount = (previousNotationHistory[diceNotation] || 0) + 1;
+      return {...previousNotationHistory, [diceNotation] : newCount}
+    })
   };
 
   return (

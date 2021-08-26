@@ -1,6 +1,8 @@
 import DiceRoller from './DiceRoller';
-import {render, screen, act} from './TestUtils';
+import {render, screen} from './TestUtils';
 import userEvent from '@testing-library/user-event';
+
+jest.mock('./atoms');
 
 const originalError = global.console.error;
 beforeAll(() => {
@@ -19,7 +21,7 @@ afterAll(() => {
 describe('Given a valid dice notation', () => {
   const diceNotation = '3d6+3';
   describe('when typed into the input field and enter is pressed', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
       render(<DiceRoller/>);
       userEvent.type(screen.getByRole('textbox'), diceNotation + '{enter}');            
     })
@@ -37,7 +39,7 @@ describe('Given a valid dice notation', () => {
 describe('Given an invalid dice notation', () => {
   const diceNotation = '3d6-';
   describe('when typed into the input field and enter is pressed', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
       render(<DiceRoller/>);
       userEvent.type(screen.getByRole('textbox'), diceNotation + '{enter}');            
     });
