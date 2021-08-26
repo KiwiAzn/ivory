@@ -1,17 +1,26 @@
 import DiceRoller from './DiceRoller';
-import {render, screen, waitFor} from './TestUtils';
-import userEvent from '@testing-library/user-event'
+import {render, screen, act} from './TestUtils';
+import userEvent from '@testing-library/user-event';
+
+const originalError = global.console.error;
+beforeAll(() => {
+	global.console.error = jest.fn((...args) => {
+		if (typeof args[0] === 'string' && args[0].includes('a test was not wrapped in act')) {
+	      return
+	    }
+	    return originalError.call(console, args)
+	});
+});
+
+afterAll(() => {
+  (global.console.error as jest.Mock).mockRestore();
+});
 
 describe('Given a valid dice notation', () => {
   const diceNotation = '3d6+3';
   describe('when typed into the input field and enter is pressed', () => {
     beforeEach(async () => {
       render(<DiceRoller/>);
-
-      await waitFor(() => {
-        expect(screen).toBeDefined();
-      })
-      
       userEvent.type(screen.getByRole('textbox'), diceNotation + '{enter}');            
     })
 
@@ -30,13 +39,8 @@ describe('Given an invalid dice notation', () => {
   describe('when typed into the input field and enter is pressed', () => {
     beforeEach(async () => {
       render(<DiceRoller/>);
-
-      await waitFor(() => {
-        expect(screen).toBeDefined();
-      })
-      
       userEvent.type(screen.getByRole('textbox'), diceNotation + '{enter}');            
-    })
+    });
 
     test('then the notation is displayed in the input field', () => {
       expect(screen.getByRole('textbox')).toHaveValue(diceNotation);

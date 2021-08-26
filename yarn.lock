@@ -5448,6 +5448,7 @@ __metadata:
     prettier: ^2.3.2
     react: 17.0.2
     react-dom: 17.0.2
+    react-hook-form: ^7.13.0
     react-intl: ^5.20.10
     react-test-renderer: ^17.0.2
     rpg-dice-roller: ^5.0.0
@@ -7546,6 +7547,15 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
   checksum: 4a86e44cb46dc54caef485f476f4462dedffad7cdb7f80c1ae5e5127311ea3b166366481b664bf732fe893f31c647cb6267ad833bd58f046062235383747ee2b
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.13.0":
+  version: 7.13.0
+  resolution: "react-hook-form@npm:7.13.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17
+  checksum: 763aefa3ceb26846dbd6f8fefe85d176a033c73aa5e2cffa460afb972bf6032b80a174b13a46543d4412741617d9ff4ef5b161956fcc64200cd7b7b9299174ad
   languageName: node
   linkType: hard
 
