@@ -1441,13 +1441,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource/permanent-marker@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "@fontsource/permanent-marker@npm:4.5.0"
-  checksum: 568c009579490a5e5a2104d734bb62c1c945fa41df28aa18df249c3a0407c14d3ce2c933283546435dc5f57c0e7b203e433c7b2c4b9cbadaaeb5ebbbed3536ba
-  languageName: node
-  linkType: hard
-
 "@formatjs/ecma402-abstract@npm:1.9.8":
   version: 1.9.8
   resolution: "@formatjs/ecma402-abstract@npm:1.9.8"
@@ -5426,7 +5419,6 @@ __metadata:
     "@chakra-ui/system": ^1.7.2
     "@emotion/react": ^11
     "@emotion/styled": ^11
-    "@fontsource/permanent-marker": ^4.5.0
     "@testing-library/dom": ^8.1.0
     "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^12.0.0
