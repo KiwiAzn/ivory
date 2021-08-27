@@ -8,9 +8,10 @@ import {
   InputGroup,
   Button,
   HStack,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import { DiceRoll } from "rpg-dice-roller";
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useEffect, useRef } from "react";
 import { FormattedMessage } from "react-intl";
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -18,15 +19,15 @@ import { useAtom } from "jotai";
 import { diceRollsAtom, selectedDiceNotationAtom } from "./atoms";
 import dynamic from "next/dynamic";
 
-const HelperTextError: React.FunctionComponent<HelpTextProps> = (props) => (
-  <FormHelperText color="red.500" {...props} />
-);
+export const HelperTextError: React.FunctionComponent<HelpTextProps> = (
+  props
+) => <FormHelperText color="red.500" {...props} />;
 
 type FormValues = {
   diceNotation: string;
 };
 
-const validateDiceNotation = (value: string) => {
+export const validateDiceNotation = (value: string) => {
   if (value === "") {
     return true;
   }
@@ -45,15 +46,22 @@ const validateDiceNotation = (value: string) => {
 
 const DynamicPreviousDiceRolls = dynamic(() => import("./PreviousDiceRolls"));
 
+const DynamicAddDiceNotationToFavourites = dynamic(
+  () =>
+    import("./AddDiceNotationToFavourites/AddDiceNotationToFavouritesButton")
+);
+
 const DiceRoller: FunctionComponent = () => {
   const [previousDiceRolls, setPreviousDiceRolls] = useAtom(diceRollsAtom);
+  const [selectedDiceNotation] = useAtom(selectedDiceNotationAtom);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
+    watch,
   } = useForm<FormValues>({ reValidateMode: "onSubmit" });
-  const [selectedDiceNotation] = useAtom(selectedDiceNotationAtom);
 
   useEffect(() => {
     setValue("diceNotation", selectedDiceNotation);
@@ -63,6 +71,8 @@ const DiceRoller: FunctionComponent = () => {
     const newDiceRoll = new DiceRoll(diceNotation);
     setPreviousDiceRolls([newDiceRoll, ...previousDiceRolls]);
   };
+
+  const submitButtonRef = useRef(null);
 
   return (
     <VStack spacing="4" align="stretch">
@@ -98,12 +108,18 @@ const DiceRoller: FunctionComponent = () => {
               </HelperTextError>
             )}
           </FormControl>
-          <Button type="submit">
-            <FormattedMessage
-              id="diceNotation.callToAction"
-              defaultMessage="Roll"
+          <ButtonGroup isAttached>
+            <Button type="submit" ref={submitButtonRef}>
+              <FormattedMessage
+                id="diceNotation.callToAction"
+                defaultMessage="Roll"
+              />
+            </Button>
+            <DynamicAddDiceNotationToFavourites
+              diceNotation={watch("diceNotation")}
+              finalFocusRef={submitButtonRef}
             />
-          </Button>
+          </ButtonGroup>
         </HStack>
       </form>
       <DynamicPreviousDiceRolls />

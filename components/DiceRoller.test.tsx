@@ -42,7 +42,7 @@ describe("Given a valid dice notation", () => {
     beforeEach(() => {
       render(<DiceRoller />);
       userEvent.type(screen.getByRole("textbox"), diceNotation);
-      userEvent.click(screen.getByRole("button"));
+      userEvent.click(screen.getByText("Roll"));
     });
 
     test("then the notation is displayed in the input field", () => {
