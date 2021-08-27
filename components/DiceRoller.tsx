@@ -1,11 +1,6 @@
 import {
-  Box,
   Input,
   VStack,
-  Text,
-  Flex,
-  Spacer,
-  StackDivider,
   FormControl,
   FormHelperText,
   HelpTextProps,
@@ -25,6 +20,7 @@ import {
   diceRollsAtom,
   selectedDiceNotationAtom,
 } from "./atoms";
+import dynamic from 'next/dynamic';
 
 const HelperTextError: React.FunctionComponent<HelpTextProps> = (props) => (
   <FormHelperText color="red.500" {...props} />
@@ -51,31 +47,7 @@ const validateDiceNotation = (value: string) => {
   }
 };
 
-const PreviousDiceRolls: FunctionComponent = () => {
-  const [previousDiceRolls] = useAtom(diceRollsAtom);
-  const [, updateDiceNotation] = useAtom(selectedDiceNotationAtom);
-
-  return (
-    <VStack divider={<StackDivider />} spacing={4} align="stretch" role="list">
-      {previousDiceRolls.map(({ notation, rolls, total }, index) => (
-        <Flex key={index} role="listitem">
-          <Box p="4">
-            <Button size="xs" onClick={() => updateDiceNotation(notation)}>
-              {notation}
-            </Button>
-          </Box>
-          <Spacer />
-          <Box p="4" color="grey">
-            <Text>{rolls.join(" ")}</Text>
-          </Box>
-          <Box p="4">
-            <Text>{total}</Text>
-          </Box>
-        </Flex>
-      ))}
-    </VStack>
-  );
-};
+const DynamicPreviousDiceRolls = dynamic(() => import('./PreviousDiceRolls'));
 
 const DiceRoller: FunctionComponent = () => {
   const [, setDiceNotationHistory] = useAtom(diceNotationHistoryAtom);
@@ -111,7 +83,7 @@ const DiceRoller: FunctionComponent = () => {
           >
             <InputGroup>
               <Input
-                placeholder="3d6+10"
+                placeholder="3d6+1"
                 role="textbox"
                 {...register("diceNotation", {
                   required: true,
@@ -143,7 +115,7 @@ const DiceRoller: FunctionComponent = () => {
           </Button>
         </HStack>
       </form>
-      <PreviousDiceRolls />
+      <DynamicPreviousDiceRolls />
     </VStack>
   );
 };
