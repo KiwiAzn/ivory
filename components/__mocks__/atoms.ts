@@ -10,3 +10,5 @@ export const diceRollsAtom = atom<Array<DiceRoll>>([]);
 diceRollsAtom.onMount = (setAtom) => {
     setAtom([]);
 };
+
+export const selectedDiceNotationAtom = atom<string>('');

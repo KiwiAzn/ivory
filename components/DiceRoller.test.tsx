@@ -33,7 +33,23 @@ describe('Given a valid dice notation', () => {
     test('then a new die is rolled', () => {
       expect(screen.getAllByRole('listitem')).toHaveLength(1);
     })
-  })
+  });
+
+  describe('when typed into the input field and the roll button is pressed', () => {
+    beforeEach(() => {
+      render(<DiceRoller/>);
+      userEvent.type(screen.getByRole('textbox'), diceNotation);
+      userEvent.click(screen.getByRole('button'));          
+    })
+
+    test('then the notation is displayed in the input field', () => {
+      expect(screen.getByRole('textbox')).toHaveValue(diceNotation);
+    }); 
+    
+    test('then a new die is rolled', () => {
+      expect(screen.getAllByRole('listitem')).toHaveLength(1);
+    })
+  });
 });
 
 describe('Given an invalid dice notation', () => {

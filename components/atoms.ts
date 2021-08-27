@@ -3,3 +3,4 @@ import { atom } from 'jotai';
 
 export const diceNotationHistoryAtom = atom<Record<string, number>>({});
 export const diceRollsAtom = atom<Array<DiceRoll>>([]);
+export const selectedDiceNotationAtom = atom<string>('');

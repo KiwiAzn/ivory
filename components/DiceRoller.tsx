@@ -1,5 +1,4 @@
 import {
-  Badge,
   Box,
   Input,
   VStack,
@@ -11,15 +10,17 @@ import {
   FormHelperText,
   HelpTextProps,
   InputRightElement,
-  InputGroup,  
+  InputGroup,
+  Button,
+  HStack
 } from "@chakra-ui/react";
 import { DiceRoll } from "rpg-dice-roller";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { FormattedMessage } from "react-intl";
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {useAtom} from 'jotai';
-import { diceNotationHistoryAtom, diceRollsAtom } from "./atoms";
+import { diceNotationHistoryAtom, diceRollsAtom, selectedDiceNotationAtom } from "./atoms";
 
 const HelperTextError: React.FunctionComponent<HelpTextProps> = (props) => (
   <FormHelperText color='red.500' {...props}/>  
@@ -48,28 +49,37 @@ const validateDiceNotation = (value: string) => {
 
 const PreviousDiceRolls: FunctionComponent = () => {
   const [previousDiceRolls] = useAtom(diceRollsAtom);
-  return <VStack divider={<StackDivider />} spacing={4} align="stretch" role='list'>
-    {previousDiceRolls.map(({ notation, rolls, total }, index) => (
-      <Flex key={index} role='listitem'>
-        <Box p="4">
-          <Badge>{notation}</Badge>
-        </Box>
-        <Spacer />
-        <Box p="4" color='grey'>
-          <Text>{rolls.join(' ')}</Text>
-        </Box>
-        <Box p="4">
-          <Text>{total}</Text>
-        </Box>
-      </Flex>
-    ))}
-  </VStack>;
+  const [, updateDiceNotation] = useAtom(selectedDiceNotationAtom);
+
+  return (
+    <VStack divider={<StackDivider />} spacing={4} align="stretch" role='list'>
+      {previousDiceRolls.map(({ notation, rolls, total }, index) => (
+        <Flex key={index} role='listitem'>
+          <Box p="4">
+            <Button size="xs" onClick={() => updateDiceNotation(notation)}>{notation}</Button>
+          </Box>
+          <Spacer />
+          <Box p="4" color='grey'>
+            <Text>{rolls.join(' ')}</Text>
+          </Box>
+          <Box p="4">
+            <Text>{total}</Text>
+          </Box>
+        </Flex>
+      ))}
+    </VStack>
+  );
 }
 
 const DiceRoller: FunctionComponent = () => {
   const [, setDiceNotationHistory] = useAtom(diceNotationHistoryAtom);
   const [previousDiceRolls, setPreviousDiceRolls] = useAtom(diceRollsAtom);
-  const { register, handleSubmit, formState: {errors}} = useForm<FormValues>({reValidateMode:'onSubmit'});
+  const { register, handleSubmit, formState: {errors}, setValue} = useForm<FormValues>({reValidateMode:'onSubmit'});
+  const [selectedDiceNotation] = useAtom(selectedDiceNotationAtom);
+
+  useEffect(() => {
+    setValue('diceNotation', selectedDiceNotation);
+  }, [selectedDiceNotation, setValue]);
 
   const onSubmit: SubmitHandler<FormValues> = ({diceNotation}) => {
     const newDiceRoll = new DiceRoll(diceNotation)
@@ -83,6 +93,7 @@ const DiceRoller: FunctionComponent = () => {
   return (
     <VStack spacing="4" align="stretch">
       <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
+        <HStack spacing="4" align="stretch">
         <FormControl id='diceNotation' isInvalid={Boolean(errors?.diceNotation)}> 
           <InputGroup>
             <Input          
@@ -106,6 +117,13 @@ const DiceRoller: FunctionComponent = () => {
             />
           </HelperTextError>}
         </FormControl>
+          <Button type='submit'>
+            <FormattedMessage
+              id='diceNotation.callToAction'
+              defaultMessage='Roll'
+            />          
+          </Button>
+        </HStack>
       </form>
       <PreviousDiceRolls/>
     </VStack>
