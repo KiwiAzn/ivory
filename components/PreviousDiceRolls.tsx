@@ -1,16 +1,15 @@
 import {
-  Box, VStack,
+  Box,
+  VStack,
   Text,
   Flex,
   Spacer,
-  StackDivider, Button
+  StackDivider,
+  Button,
 } from "@chakra-ui/react";
 import React, { FunctionComponent } from "react";
 import { useAtom } from "jotai";
-import {
-  diceRollsAtom,
-  selectedDiceNotationAtom
-} from "./atoms";
+import { diceRollsAtom, selectedDiceNotationAtom } from "./atoms";
 
 const PreviousDiceRolls: FunctionComponent = () => {
   const [previousDiceRolls] = useAtom(diceRollsAtom);

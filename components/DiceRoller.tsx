@@ -51,6 +51,11 @@ const DynamicAddDiceNotationToFavourites = dynamic(
     import("./AddDiceNotationToFavourites/AddDiceNotationToFavouritesButton")
 );
 
+const DynamicFavouriteDiceRolls = dynamic(
+  () => import("./FavouriteDiceRolls"),
+  { ssr: false }
+);
+
 const DiceRoller: FunctionComponent = () => {
   const [previousDiceRolls, setPreviousDiceRolls] = useAtom(diceRollsAtom);
   const [selectedDiceNotation] = useAtom(selectedDiceNotationAtom);
@@ -122,6 +127,7 @@ const DiceRoller: FunctionComponent = () => {
           </ButtonGroup>
         </HStack>
       </form>
+      <DynamicFavouriteDiceRolls />
       <DynamicPreviousDiceRolls />
     </VStack>
   );

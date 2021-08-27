@@ -13,6 +13,7 @@ import {
   ModalHeader,
   ModalOverlay,
   FormLabel,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import React, { FunctionComponent, RefObject, useEffect, useRef } from "react";
 import { FormattedMessage } from "react-intl";
@@ -104,8 +105,8 @@ const AddDiceNotationToFavouritesModal: FunctionComponent<AddDiceNotationToFavou
                   {errors.name && (
                     <HelperTextError>
                       <FormattedMessage
-                        id="diceNotation.invalidInput"
-                        defaultMessage="Please enter a valid dice notation"
+                        id="name.invalidInput"
+                        defaultMessage="Please enter a name for this dice rollXS"
                       />
                     </HelperTextError>
                   )}
