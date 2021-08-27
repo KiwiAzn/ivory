@@ -46,8 +46,28 @@ const validateDiceNotation = (value: string) => {
   }
 };
 
+const PreviousDiceRolls: FunctionComponent = () => {
+  const [previousDiceRolls] = useAtom(diceRollsAtom);
+  return <VStack divider={<StackDivider />} spacing={4} align="stretch" role='list'>
+    {previousDiceRolls.map(({ notation, rolls, total }, index) => (
+      <Flex key={index} role='listitem'>
+        <Box p="4">
+          <Badge>{notation}</Badge>
+        </Box>
+        <Spacer />
+        <Box p="4" color='grey'>
+          <Text>{rolls.join(' ')}</Text>
+        </Box>
+        <Box p="4">
+          <Text>{total}</Text>
+        </Box>
+      </Flex>
+    ))}
+  </VStack>;
+}
+
 const DiceRoller: FunctionComponent = () => {
-  const [diceNotationHistory, setDiceNotationHistory] = useAtom(diceNotationHistoryAtom);
+  const [, setDiceNotationHistory] = useAtom(diceNotationHistoryAtom);
   const [previousDiceRolls, setPreviousDiceRolls] = useAtom(diceRollsAtom);
   const { register, handleSubmit, formState: {errors}} = useForm<FormValues>({reValidateMode:'onSubmit'});
 
@@ -87,22 +107,7 @@ const DiceRoller: FunctionComponent = () => {
           </HelperTextError>}
         </FormControl>
       </form>
-      <VStack divider={<StackDivider />} spacing={4} align="stretch" role='list'>
-        {previousDiceRolls.map(({ notation, rolls, total }, index) => (
-          <Flex key={index} role='listitem'>
-            <Box p="4">
-              <Badge>{notation}</Badge>
-            </Box>            
-            <Spacer/>
-            <Box p="4" color='grey'>
-              <Text>{rolls.join(' ')}</Text>
-            </Box>
-            <Box p="4">
-              <Text>{total}</Text>
-            </Box>
-          </Flex>
-        ))}
-      </VStack>
+      <PreviousDiceRolls/>
     </VStack>
   );
 };
