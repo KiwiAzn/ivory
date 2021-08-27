@@ -7,7 +7,14 @@ export interface LightModeToggleProps extends Omit<IconButtonProps, 'aria-label'
 
 const LightModeToggle: FunctionComponent<LightModeToggleProps> = (props) => {
   const { colorMode, toggleColorMode } = useColorMode();
-  return <IconButton aria-hidden aria-label='toggle-light-mode' onClick={toggleColorMode} icon={colorMode === 'light' ? <MoonIcon/> : <SunIcon/>} {...props}/>
+  return <IconButton
+    aria-hidden
+    aria-label='toggle-light-mode'
+    onClick={toggleColorMode}
+    icon={colorMode === 'light' ? <MoonIcon/> : <SunIcon/>}
+    variant='ghost'
+    {...props}
+  />
 }
 
 export default LightModeToggle
