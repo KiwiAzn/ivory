@@ -93,7 +93,7 @@ const DiceRoller: FunctionComponent = () => {
   return (
     <VStack spacing="4" align="stretch">
       <form onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-        <HStack spacing="4" align="stretch">
+        <HStack spacing="2" align="stretch">
         <FormControl id='diceNotation' isInvalid={Boolean(errors?.diceNotation)}> 
           <InputGroup>
             <Input          
