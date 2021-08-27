@@ -12,7 +12,7 @@ const Home: NextPage = () => {
         <title>Ivory - RPG dice roller built for the web</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <LightModeToggle pos='absolute' right='4' top='4'/>
+      <LightModeToggle pos="absolute" right="4" top="4" />
       <Container>
         <Hero />
         <DiceRoller></DiceRoller>

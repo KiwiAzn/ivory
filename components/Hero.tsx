@@ -9,10 +9,10 @@ const Hero: React.FunctionComponent = () => (
       </Heading>
       <Text fontSize="xl">
         <FormattedMessage
-          id='hero.subTitle'
-          defaultMessage='RPG dice roller built for the web'
-          description='Subtitle text to accompany the app name'
-        />        
+          id="hero.subTitle"
+          defaultMessage="RPG dice roller built for the web"
+          description="Subtitle text to accompany the app name"
+        />
       </Text>
     </Box>
   </Center>

@@ -6,7 +6,7 @@ import theme from "../styles/theme";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
-      <IntlProvider locale='en'>
+      <IntlProvider locale="en">
         <Component {...pageProps} />
       </IntlProvider>
     </ChakraProvider>
