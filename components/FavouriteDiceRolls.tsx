@@ -38,12 +38,15 @@ const FavouriteDiceRolls: FunctionComponent = () => {
     <>
       <Wrap spacing="4">
         {savedDiceRolls.map(({ name, diceNotation }, index) => (
-          <Tag key={index}>
-            <TagLabel onClick={() => setSelectedDiceNotation(diceNotation)}>
-              {name}
-            </TagLabel>
+          <Tag
+            key={index}
+            cursor="pointer"
+            onClick={() => setSelectedDiceNotation(diceNotation)}
+          >
+            <TagLabel userSelect="none">{name}</TagLabel>
             <TagCloseButton
-              onClick={() => {
+              onClick={(event) => {
+                event.preventDefault();
                 setSavedDiceRollToDelete({ name, index });
                 onOpen();
               }}
