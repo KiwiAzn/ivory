@@ -11,12 +11,12 @@ import {
   ButtonGroup,
 } from "@chakra-ui/react";
 import { DiceRoll } from "rpg-dice-roller";
-import React, { FunctionComponent, useEffect, useRef } from "react";
+import React, { FunctionComponent, useRef } from "react";
 import { FormattedMessage } from "react-intl";
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAtom } from "jotai";
-import { diceRollsAtom, selectedDiceNotationAtom } from "./atoms";
+import { diceRollsAtom } from "./atoms";
 import dynamic from "next/dynamic";
 
 export const HelperTextError: React.FunctionComponent<HelpTextProps> = (
@@ -58,7 +58,6 @@ const DynamicFavouriteDiceRolls = dynamic(
 
 const DiceRoller: FunctionComponent = () => {
   const [previousDiceRolls, setPreviousDiceRolls] = useAtom(diceRollsAtom);
-  const [selectedDiceNotation] = useAtom(selectedDiceNotationAtom);
 
   const {
     register,
@@ -67,10 +66,6 @@ const DiceRoller: FunctionComponent = () => {
     setValue,
     watch,
   } = useForm<FormValues>({ reValidateMode: "onSubmit" });
-
-  useEffect(() => {
-    setValue("diceNotation", selectedDiceNotation);
-  }, [selectedDiceNotation, setValue]);
 
   const onSubmit: SubmitHandler<FormValues> = ({ diceNotation }) => {
     const newDiceRoll = new DiceRoll(diceNotation);
@@ -132,7 +127,11 @@ const DiceRoller: FunctionComponent = () => {
           setValue("diceNotation", diceNotation)
         }
       />
-      <DynamicPreviousDiceRolls />
+      <DynamicPreviousDiceRolls
+        onSelectDiceNotation={(diceNotation) =>
+          setValue("diceNotation", diceNotation)
+        }
+      />
     </VStack>
   );
 };
