@@ -127,7 +127,11 @@ const DiceRoller: FunctionComponent = () => {
           </ButtonGroup>
         </HStack>
       </form>
-      <DynamicFavouriteDiceRolls />
+      <DynamicFavouriteDiceRolls
+        onSelectDiceNotation={(diceNotation) =>
+          setValue("diceNotation", diceNotation)
+        }
+      />
       <DynamicPreviousDiceRolls />
     </VStack>
   );

@@ -17,7 +17,6 @@ import {
 import { useAtom } from "jotai";
 import { FunctionComponent, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { selectedDiceNotationAtom } from "./atoms";
 import savedDiceRollsAtom from "./atoms/savedDiceRollsAtom";
 
 interface SavedDiceRollToDelete {
@@ -25,9 +24,14 @@ interface SavedDiceRollToDelete {
   index: number;
 }
 
-const FavouriteDiceRolls: FunctionComponent = () => {
+export interface FavouriteDiceRollsProps {
+  onSelectDiceNotation: (diceNotation: string) => void;
+}
+
+const FavouriteDiceRolls: FunctionComponent<FavouriteDiceRollsProps> = ({
+  onSelectDiceNotation,
+}) => {
   const [savedDiceRolls, setSavedDiceRolls] = useAtom(savedDiceRollsAtom);
-  const [, setSelectedDiceNotation] = useAtom(selectedDiceNotationAtom);
 
   const [savedDiceRollToDelete, setSavedDiceRollToDelete] =
     useState<SavedDiceRollToDelete>({ index: -1, name: "" });
@@ -41,7 +45,7 @@ const FavouriteDiceRolls: FunctionComponent = () => {
           <Tag
             key={index}
             cursor="pointer"
-            onClick={() => setSelectedDiceNotation(diceNotation)}
+            onClick={() => onSelectDiceNotation(diceNotation)}
           >
             <TagLabel userSelect="none">{name}</TagLabel>
             <TagCloseButton
