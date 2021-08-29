@@ -1,0 +1,48 @@
+asyncapi: 2.1.0
+info:
+  title: Async endpoints for the Dice room service
+  version: "0.1.0"
+channels:
+  diceRolls:
+    publish:
+      message:
+        $ref: "#/components/messages/DiceRoll"
+    subscribe:
+      message:
+        $ref: "#/components/messages/DiceRollWithSender"
+
+components:
+  messages:
+    DiceRoll:
+      payload:
+        $ref: "#/components/schemas/DiceRoll"
+    DiceRollWithSender:
+      payload:
+        $ref: "#/components/schemas/DiceRollWithSender"
+
+  schemas:
+    DiceRoll:
+      type: object
+      properties:
+        diceNotation:
+          description: The dice notation that was used to get the result.
+          type: string
+        resultBreakdown:
+          description: The breakdown of how the result was calculated. Individual dice rolls are represented in arrays (within the string).
+          type: string
+        result:
+          type: integer
+      example:
+        diceNotaiton: 3d6 + 1
+        resultBreakdown: "[3,6,2] + 1"
+        result: 12
+    DiceRollWithSender:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+            diceRollerId:
+              type: string
+              description: The id of who rolled this dice roll.
+        - $ref: "#/components/schemas/DiceRoll"
