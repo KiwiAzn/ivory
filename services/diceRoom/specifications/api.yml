@@ -7,6 +7,13 @@ paths:
     get:
       summary: Returns the list of dice rolls
       description: Optional extended description in CommonMark or HTML.
+      parameters:
+        - in: path
+          name: roomId
+          required: true
+          schema:
+            type: string
+          description: The room ID
       responses:
         "200":
           description: A JSON array of all dice rolls for the room
