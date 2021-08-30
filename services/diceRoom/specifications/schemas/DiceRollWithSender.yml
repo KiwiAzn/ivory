@@ -1,0 +1,9 @@
+allOf:
+  - type: object
+    properties:
+      id:
+        type: string
+      diceRollerId:
+        type: string
+        description: The id of who rolled this dice roll.
+  - $ref: "./DiceRoll.yml"

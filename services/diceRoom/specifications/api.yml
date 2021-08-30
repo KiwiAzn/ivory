@@ -1,0 +1,24 @@
+openapi: 3.0.3
+info:
+  title: REST endpoints for the dice room service
+  version: 0.1.0
+paths:
+  "/room/{roomId}/diceRolls":
+    get:
+      summary: Returns the list of dice rolls
+      description: Optional extended description in CommonMark or HTML.
+      responses:
+        "200":
+          description: A JSON array of all dice rolls for the room
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DiceRoll"
+components:
+  schemas:
+    DiceRoll:
+      $ref: "./schemas/DiceRoll.yml"
+    DiceRollWithSender:
+      $ref: "./schemas/DiceRollWithSender.yml"
