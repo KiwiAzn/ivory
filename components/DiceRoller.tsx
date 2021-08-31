@@ -11,13 +11,14 @@ import {
   ButtonGroup,
 } from "@chakra-ui/react";
 import { DiceRoll } from "rpg-dice-roller";
-import React, { FunctionComponent, useRef } from "react";
+import React, { FunctionComponent, RefObject, useRef } from "react";
 import { FormattedMessage } from "react-intl";
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAtom } from "jotai";
 import { diceRollsAtom } from "./atoms";
 import dynamic from "next/dynamic";
+import { FocusableElement } from "@chakra-ui/utils";
 
 export const HelperTextError: React.FunctionComponent<HelpTextProps> = (
   props
@@ -64,6 +65,7 @@ const DiceRoller: FunctionComponent = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    setFocus,
     watch,
   } = useForm<FormValues>({ reValidateMode: "onSubmit" });
 
@@ -72,7 +74,19 @@ const DiceRoller: FunctionComponent = () => {
     setPreviousDiceRolls([newDiceRoll, ...previousDiceRolls]);
   };
 
-  const submitButtonRef = useRef(null);
+  const { ref, ...diceNotationRegisterProps } = register("diceNotation", {
+    required: true,
+    validate: {
+      validDiceNotation: validateDiceNotation,
+    },
+  });
+
+  const diceNotationRef = useRef<HTMLInputElement | null>(null);
+
+  const handleSelectDiceNotation = (diceNotation: string): void => {
+    setValue("diceNotation", diceNotation);
+    setFocus("diceNotation");
+  };
 
   return (
     <VStack spacing="4" align="stretch">
@@ -84,14 +98,14 @@ const DiceRoller: FunctionComponent = () => {
           >
             <InputGroup>
               <Input
+                id="diceNotation"
                 placeholder="3d6+1"
                 role="textbox"
-                {...register("diceNotation", {
-                  required: true,
-                  validate: {
-                    validDiceNotation: validateDiceNotation,
-                  },
-                })}
+                {...diceNotationRegisterProps}
+                ref={(e) => {
+                  ref(e);
+                  diceNotationRef.current = e;
+                }}
               />
               {errors.diceNotation && (
                 <InputRightElement>
@@ -109,7 +123,7 @@ const DiceRoller: FunctionComponent = () => {
             )}
           </FormControl>
           <ButtonGroup isAttached>
-            <Button type="submit" ref={submitButtonRef}>
+            <Button type="submit">
               <FormattedMessage
                 id="diceNotation.callToAction"
                 defaultMessage="Roll"
@@ -117,20 +131,16 @@ const DiceRoller: FunctionComponent = () => {
             </Button>
             <DynamicAddDiceNotationToFavourites
               diceNotation={watch("diceNotation")}
-              finalFocusRef={submitButtonRef}
+              finalFocusRef={diceNotationRef}
             />
           </ButtonGroup>
         </HStack>
       </form>
       <DynamicFavouriteDiceRolls
-        onSelectDiceNotation={(diceNotation) =>
-          setValue("diceNotation", diceNotation)
-        }
+        onSelectDiceNotation={handleSelectDiceNotation}
       />
       <DynamicPreviousDiceRolls
-        onSelectDiceNotation={(diceNotation) =>
-          setValue("diceNotation", diceNotation)
-        }
+        onSelectDiceNotation={handleSelectDiceNotation}
       />
     </VStack>
   );
