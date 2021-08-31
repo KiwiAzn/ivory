@@ -14,7 +14,8 @@ docker run --rm \
   -v $(pwd)/service/generated/:/tmp/go \
   openapitools/openapi-generator-cli generate \
   -i /specifications/$diceRoomRestEndpointSpecs \
-  -g go-gin-server \
-  -o /go
+  --global-property models \
+  -g go-server \
+  -o /tmp/go
 
 popd

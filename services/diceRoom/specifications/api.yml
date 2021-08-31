@@ -22,7 +22,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/DiceRoll"
+                  $ref: "#/components/schemas/DiceRollWithSender"
 components:
   schemas:
     DiceRoll:

@@ -5,3 +5,6 @@
 .pnp.cjs
 next-env.d.ts
 yarn.lock
+*.sh
+*.go
+.prettierignore

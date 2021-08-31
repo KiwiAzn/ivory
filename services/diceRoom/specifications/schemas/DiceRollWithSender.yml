@@ -6,4 +6,15 @@ allOf:
       diceRollerId:
         type: string
         description: The id of who rolled this dice roll.
-  - $ref: "./DiceRoll.yml"
+      diceNotation:
+        description: The dice notation that was used to get the result.
+        type: string
+      resultBreakdown:
+        description: The breakdown of how the result was calculated. Individual dice rolls are represented in arrays (within the string).
+        type: string
+      result:
+        type: integer
+    example:
+      diceNotaiton: 3d6 + 1
+      resultBreakdown: "[3,6,2] + 1"
+      result: 12
