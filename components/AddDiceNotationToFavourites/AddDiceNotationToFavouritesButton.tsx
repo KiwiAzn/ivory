@@ -1,6 +1,6 @@
 import { IconButton, useDisclosure } from "@chakra-ui/react";
 import React, { FunctionComponent, RefObject } from "react";
-import { AddIcon } from "@chakra-ui/icons";
+import { StarIcon } from "@chakra-ui/icons";
 import dynamic from "next/dynamic";
 import { FocusableElement } from "@chakra-ui/utils";
 
@@ -23,7 +23,7 @@ const AddDiceNotationToFavouritesButton: FunctionComponent<AddDiceNotationToFavo
         <IconButton
           aria-label="Add dice roll to favourites"
           onClick={onOpen}
-          icon={<AddIcon />}
+          icon={<StarIcon />}
         />
         <DynamicAddDiceNotationToFavouritesModal
           isOpen={isOpen}
