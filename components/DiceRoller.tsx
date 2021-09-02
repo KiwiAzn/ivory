@@ -11,14 +11,13 @@ import {
   ButtonGroup,
 } from "@chakra-ui/react";
 import { DiceRoll } from "rpg-dice-roller";
-import React, { FunctionComponent, RefObject, useRef } from "react";
+import React, { FunctionComponent, useRef } from "react";
 import { FormattedMessage } from "react-intl";
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAtom } from "jotai";
 import { diceRollsAtom } from "./atoms";
 import dynamic from "next/dynamic";
-import { FocusableElement } from "@chakra-ui/utils";
 
 export const HelperTextError: React.FunctionComponent<HelpTextProps> = (
   props
