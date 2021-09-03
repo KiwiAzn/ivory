@@ -1,6 +1,11 @@
 package main
 
-import "example.com/diceRoom/models"
+import (
+	"encoding/json"
+	"log"
+
+	"github.com/kiwiazn/ivory/services/diceRoom/models"
+)
 
 // Hub maintains the set of active clients and broadcasts messages to the clients.
 type Hub struct {
@@ -8,7 +13,7 @@ type Hub struct {
 	clients map[*Client]bool
 
 	// Inbound messages from the clients.
-	broadcast chan models.DiceRollWithSender
+	broadcast chan []byte
 
 	// Register requests from the clients.
 	register chan *Client
@@ -17,17 +22,45 @@ type Hub struct {
 	unregister chan *Client
 
 	// diceRolls
-	diceRolls []string
+	diceRolls []models.DiceRollWithSender
 }
 
 func newHub() *Hub {
 	return &Hub{
-		broadcast:  make(chan models.DiceRollWithSender),
+		broadcast:  make(chan []byte),
 		register:   make(chan *Client),
 		unregister: make(chan *Client),
 		clients:    make(map[*Client]bool),
 		diceRolls:  make([]models.DiceRollWithSender, 0),
 	}
+}
+
+func validateDiceRoll(diceRoll models.DiceRollWithSender) bool {
+	if (models.DiceRollWithSender{}) == diceRoll {
+		return false
+	}
+
+	if diceRoll.Id == "" {
+		log.Println("Missing Id")
+		return false
+	}
+
+	if diceRoll.DiceRollerId == "" {
+		log.Println("Missing DiceRollerId")
+		return false
+	}
+
+	if diceRoll.DiceNotation == "" {
+		log.Println("Missing DiceNotation")
+		return false
+	}
+
+	if diceRoll.ResultBreakdown == "" {
+		log.Println("Missing ResultBeakdown")
+		return false
+	}
+
+	return true
 }
 
 func (h *Hub) run() {
@@ -42,7 +75,18 @@ func (h *Hub) run() {
 			}
 		case message := <-h.broadcast:
 			// Store message
-			h.diceRolls = append(h.diceRolls, string(message))
+			var diceRoll models.DiceRollWithSender
+			err := json.Unmarshal(message, &diceRoll)
+
+			if err != nil {
+				continue
+			}
+
+			if !validateDiceRoll(diceRoll) {
+				continue
+			}
+
+			h.diceRolls = append(h.diceRolls, diceRoll)
 
 			for client := range h.clients {
 				select {

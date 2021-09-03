@@ -5,12 +5,10 @@
 package main
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 	"time"
 
-	"example.com/diceRoom/models"
 	"github.com/gorilla/websocket"
 )
 
@@ -64,19 +62,14 @@ func (c *Client) readPump() {
 	c.conn.SetReadDeadline(time.Now().Add(pongWait))
 	c.conn.SetPongHandler(func(string) error { c.conn.SetReadDeadline(time.Now().Add(pongWait)); return nil })
 	for {
-		_, messageBytes, err := c.conn.ReadMessage()
+		_, message, err := c.conn.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				log.Printf("error: %v", err)
 			}
 			break
 		}
-		// message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
-		var message models.DiceRollWithSender
-		jsonParseErr := json.Unmarshal(messageBytes, &message)
-		if jsonParseErr != nil {
-			c.hub.broadcast <- message
-		}
+		c.hub.broadcast <- message
 	}
 }
 
