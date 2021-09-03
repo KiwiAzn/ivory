@@ -14,16 +14,13 @@ func main() {
 		})
 	})
 
-	r.GET("/room/:roomId/diceRolls", func(c *gin.Context) {
-		roomId := c.Param("roomId")
-		c.JSON(http.StatusOK, gin.H{
-			"roomId": roomId,
-		})
-	})
-
 	// Setup websockets
 	hub := newHub()
 	go hub.run()
+
+	r.GET("/room/:roomId/diceRolls", func(c *gin.Context) {
+		c.JSON(http.StatusOK, hub.diceRolls)
+	})
 
 	r.GET("/room/:roomId/diceRolls/ws", func(c *gin.Context) {
 		serveWs(hub, c.Writer, c.Request)
