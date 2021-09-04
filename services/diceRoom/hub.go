@@ -21,7 +21,7 @@ type Hub struct {
 	// Unregister requests from clients.
 	unregister chan *Client
 
-	// diceRolls
+	// DiceRolls
 	diceRolls []models.DiceRollWithSender
 }
 
@@ -40,12 +40,7 @@ func validateDiceRoll(diceRoll models.DiceRollWithSender) bool {
 		return false
 	}
 
-	if diceRoll.Id == "" {
-		log.Println("Missing Id")
-		return false
-	}
-
-	if diceRoll.DiceRollerId == "" {
+	if diceRoll.DiceRollerName == "" {
 		log.Println("Missing DiceRollerId")
 		return false
 	}

@@ -1,10 +1,8 @@
 package models
 
 type DiceRollWithSender struct {
-	Id string `json:"id,omitempty"`
-
-	// The id of who rolled this dice roll.
-	DiceRollerId string `json:"diceRollerId,omitempty"`
+	// The name of who rolled this dice roll.
+	DiceRollerName string `json:"diceRollerName,omitempty"`
 
 	// The dice notation that was used to get the result.
 	DiceNotation string `json:"diceNotation,omitempty"`
