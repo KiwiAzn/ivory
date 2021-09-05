@@ -1,2 +1,3 @@
 *.Dockerfile
 infrastructure
+.env.local

@@ -5445,6 +5445,7 @@ __metadata:
     react-hook-form: ^7.13.0
     react-intl: ^5.20.10
     react-test-renderer: ^17.0.2
+    react-use-websocket: ^2.7.1
     rpg-dice-roller: ^5.0.0
     typescript: 4.3.5
   languageName: unknown
@@ -7704,6 +7705,16 @@ __metadata:
   peerDependencies:
     react: 17.0.2
   checksum: e6b5c6ed2a0bde2c34f1ab9523ff9bc4c141a271daf730d6b852374e83acc0155d58ab71a318251e953ebfa65b8bebb9c5dce3eba1ccfcbef7cc4e1e8261c401
+  languageName: node
+  linkType: hard
+
+"react-use-websocket@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "react-use-websocket@npm:2.7.1"
+  peerDependencies:
+    react: ">= 16.8.0"
+    react-dom: ">= 16.8.0"
+  checksum: 418fa74ad12540177338f309ec3663ae9a1ac93b9b78f57cbeff04dfdf7ee7b1c6a5ec75f8ac6c6e285db2f9a2043d6337cc97d27f7b801c0fc8188fe0f03c4d
   languageName: node
   linkType: hard
 

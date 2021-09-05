@@ -2,7 +2,7 @@ import { Container } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import DiceRoller from "../../components/DiceRoller";
+import DiceRollerServer from "../../components/DiceRollerServer";
 import Hero from "../../components/Hero";
 import LightModeToggle from "../../components/LightModeToggle";
 
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
       <LightModeToggle pos="absolute" right="4" top="4" />
       <Container>
         <Hero />
-        <DiceRoller />
+        <DiceRollerServer />
       </Container>
       <DynamicNameModalOpener />
     </div>
