@@ -106,7 +106,7 @@ const AddDiceNotationToFavouritesModal: FunctionComponent<AddDiceNotationToFavou
                     <HelperTextError>
                       <FormattedMessage
                         id="name.invalidInput"
-                        defaultMessage="Please enter a name for this dice rollXS"
+                        defaultMessage="Please enter a name for this dice roll"
                       />
                     </HelperTextError>
                   )}
