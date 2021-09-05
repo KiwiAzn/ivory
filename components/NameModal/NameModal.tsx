@@ -73,7 +73,7 @@ const NameModal: FunctionComponent<NameModalProps> = ({
           <FormattedMessage id="nameModal.title" defaultMessage="Set name" />
         </ModalHeader>
         <ModalBody>
-          <form autoComplete="off">
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
             <VStack spacing="4">
               <FormControl id="name" isInvalid={Boolean(errors?.name)}>
                 <FormLabel>

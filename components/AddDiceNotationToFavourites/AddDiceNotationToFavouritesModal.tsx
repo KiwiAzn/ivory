@@ -78,7 +78,7 @@ const AddDiceNotationToFavouritesModal: FunctionComponent<AddDiceNotationToFavou
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <form autoComplete="off">
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
               <VStack spacing="4">
                 <FormControl id="name" isInvalid={Boolean(errors?.name)}>
                   <FormLabel>

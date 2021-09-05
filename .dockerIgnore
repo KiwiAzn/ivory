@@ -1,3 +1,4 @@
 *.Dockerfile
 infrastructure
 .env.local
+.next

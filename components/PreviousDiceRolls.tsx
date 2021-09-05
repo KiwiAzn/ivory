@@ -7,9 +7,10 @@ import {
   StackDivider,
   Button,
 } from "@chakra-ui/react";
-import React, { FunctionComponent } from "react";
+import React, { Fragment, FunctionComponent } from "react";
 import { useAtom } from "jotai";
 import { diceRollsAtom } from "./atoms";
+import { FormattedMessage } from "react-intl";
 
 interface PreviousDiceRollsProps {
   onSelectDiceNotation: (diceNotation: string) => void;
@@ -22,22 +23,38 @@ const PreviousDiceRolls: FunctionComponent<PreviousDiceRollsProps> = ({
 
   return (
     <VStack divider={<StackDivider />} spacing={4} align="stretch" role="list">
-      {previousDiceRolls.map(({ notation, rolls, total }, index) => (
-        <Flex key={index} role="listitem">
-          <Box p="4">
-            <Button size="xs" onClick={() => onSelectDiceNotation(notation)}>
-              {notation}
-            </Button>
-          </Box>
-          <Spacer />
-          <Box p="4" color="grey">
-            <Text>{rolls.join(" ")}</Text>
-          </Box>
-          <Box p="4">
-            <Text>{total}</Text>
-          </Box>
-        </Flex>
-      ))}
+      {previousDiceRolls.map(
+        ({ rollerName, notation, resultBreakdown, result }, index) => (
+          <Fragment key={index}>
+            {rollerName && (
+              <Text pl="4">
+                <FormattedMessage
+                  id="rolledDice"
+                  defaultMessage="{name} rolled:"
+                  values={{ name: rollerName }}
+                />
+              </Text>
+            )}
+            <Flex role="listitem">
+              <Box p="4">
+                <Button
+                  size="xs"
+                  onClick={() => onSelectDiceNotation(notation)}
+                >
+                  {notation}
+                </Button>
+              </Box>
+              <Spacer />
+              <Box p="4" color="grey">
+                <Text>{resultBreakdown}</Text>
+              </Box>
+              <Box p="4">
+                <Text>{result}</Text>
+              </Box>
+            </Flex>
+          </Fragment>
+        )
+      )}
     </VStack>
   );
 };

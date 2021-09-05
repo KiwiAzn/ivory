@@ -18,6 +18,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useAtom } from "jotai";
 import { diceRollsAtom } from "./atoms";
 import dynamic from "next/dynamic";
+import rollDice from "../utils/rollDice";
 
 export const HelperTextError: React.FunctionComponent<HelpTextProps> = (
   props
@@ -69,8 +70,9 @@ const DiceRoller: FunctionComponent = () => {
   } = useForm<FormValues>({ reValidateMode: "onSubmit" });
 
   const onSubmit: SubmitHandler<FormValues> = ({ diceNotation }) => {
-    const newDiceRoll = new DiceRoll(diceNotation);
-    setPreviousDiceRolls([newDiceRoll, ...previousDiceRolls]);
+    const diceRoll = rollDice(diceNotation);
+
+    setPreviousDiceRolls([diceRoll, ...previousDiceRolls]);
   };
 
   const { ref, ...diceNotationRegisterProps } = register("diceNotation", {

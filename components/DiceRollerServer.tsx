@@ -18,7 +18,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useAtom } from "jotai";
 import { diceRollsAtom } from "./atoms";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/dist/client/router";
 
 export const HelperTextError: React.FunctionComponent<HelpTextProps> = (
   props
@@ -58,9 +57,9 @@ const DynamicFavouriteDiceRolls = dynamic(
 );
 
 const DynamicDiceRoomHandler = dynamic(
-  () => import('./DiceRoom/DiceRoomHandler'),
-  { ssr: false}
-)
+  () => import("./DiceRoom/DiceRoomHandler"),
+  { ssr: false }
+);
 
 const DiceRoller: FunctionComponent = () => {
   const [previousDiceRolls, setPreviousDiceRolls] = useAtom(diceRollsAtom);
@@ -73,11 +72,6 @@ const DiceRoller: FunctionComponent = () => {
     setFocus,
     watch,
   } = useForm<FormValues>({ reValidateMode: "onSubmit" });
-
-  const onSubmit: SubmitHandler<FormValues> = ({ diceNotation }) => {
-    const newDiceRoll = new DiceRoll(diceNotation);
-    setPreviousDiceRolls([newDiceRoll, ...previousDiceRolls]);
-  };
 
   const { ref, ...diceNotationRegisterProps } = register("diceNotation", {
     required: true,
@@ -93,9 +87,15 @@ const DiceRoller: FunctionComponent = () => {
     setFocus("diceNotation");
   };
 
+  const rollDice = useRef<Function | null>(null);
+
+  const onSubmit: SubmitHandler<FormValues> = ({ diceNotation }) => {
+    rollDice.current!(diceNotation);
+  };
+
   return (
     <VStack spacing="4" align="stretch">
-      <DynamicDiceRoomHandler/>
+      <DynamicDiceRoomHandler rollDiceRef={rollDice} />
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <HStack spacing="2" align="stretch">
           <FormControl

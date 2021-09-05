@@ -40,13 +40,13 @@ func validateDiceRoll(diceRoll models.DiceRollWithSender) bool {
 		return false
 	}
 
-	if diceRoll.DiceRollerName == "" {
-		log.Println("Missing DiceRollerName")
+	if diceRoll.RollerName == "" {
+		log.Println("Missing RollerName")
 		return false
 	}
 
-	if diceRoll.DiceNotation == "" {
-		log.Println("Missing DiceNotation")
+	if diceRoll.Notation == "" {
+		log.Println("Missing Notation")
 		return false
 	}
 
