@@ -41,7 +41,7 @@ func validateDiceRoll(diceRoll models.DiceRollWithSender) bool {
 	}
 
 	if diceRoll.DiceRollerName == "" {
-		log.Println("Missing DiceRollerId")
+		log.Println("Missing DiceRollerName")
 		return false
 	}
 
