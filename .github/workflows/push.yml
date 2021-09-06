@@ -19,6 +19,7 @@ jobs:
       - name: Setup k8s config
         run: |
           echo $KUBECONFIG_CONTENTS >> ~/kubeconfig
+          ls ~
         shell: bash
         env:
           KUBECONFIG_CONTENTS: ${{ secrets.KUBECONFIG_CONTENTS}}
