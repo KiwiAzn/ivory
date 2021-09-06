@@ -21,7 +21,7 @@ jobs:
           echo $KUBECONFIG_CONTENTS >> ~/kubeconfig
         shell: bash
         env:
-          KUBECONFIG_CONTENTS: ${{KUBECONFIG_CONTENTS}}
+          KUBECONFIG_CONTENTS: ${{ secrets.KUBECONFIG_CONTENTS}}
       - uses: pulumi/actions@v3
         with:
           command: up
