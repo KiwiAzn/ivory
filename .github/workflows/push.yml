@@ -17,9 +17,7 @@ jobs:
           node-version: 14.x
       - run: npm install
       - name: Setup k8s config
-        run: |
-          echo $KUBECONFIG_CONTENTS >> ~/kubeconfig
-          ls ~
+        run: echo $KUBECONFIG_CONTENTS > ~/kubeconfig
         shell: bash
         env:
           KUBECONFIG_CONTENTS: ${{ secrets.KUBECONFIG_CONTENTS}}
