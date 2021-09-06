@@ -6,16 +6,22 @@ import { nanoid } from "nanoid";
 
 const imageTag = Buffer.from(nanoid()).toString("base64");
 
+const containerRegistryAuth: docker.ImageRegistry = {
+  server: "ivory.azurecr.io",
+  username: "ivory",
+  password: "C37dFUdxLF98Xv3If/q=90ajnHN6BMKW",
+};
+
 const ivoryUiName = "ivory-ui";
 const ivoryAppLabels = { app: ivoryUiName };
 
 const ivoryUiImage = new docker.Image(ivoryUiName, {
-  imageName: `ivory-ui:${imageTag}`,
+  imageName: `${containerRegistryAuth.server}/ivory-ui`,
   build: {
     context: path.join(__dirname, ".."),
     dockerfile: path.join(__dirname, "..", "ui.Dockerfile"),
   },
-  skipPush: true,
+  registry: containerRegistryAuth,
 });
 
 const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
@@ -28,8 +34,7 @@ const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
         containers: [
           {
             name: ivoryUiName,
-            image: ivoryUiImage.baseImageName,
-            imagePullPolicy: "Never",
+            image: ivoryUiImage.imageName,
             ports: [{ containerPort: 3000 }],
           },
         ],
@@ -51,12 +56,12 @@ const ivoryDiceRoomName = "ivory-dice-room";
 const ivoryDiceRoomAppLabels = { app: ivoryDiceRoomName };
 
 const ivoryDiceRoomImage = new docker.Image(ivoryDiceRoomName, {
-  imageName: `ivory-dice-room:${imageTag}`,
+  imageName: `${containerRegistryAuth.server}/ivory-dice-room`,
   build: {
     context: path.join(__dirname, ".."),
     dockerfile: path.join(__dirname, "..", "diceRoomService.Dockerfile"),
   },
-  skipPush: true,
+  registry: containerRegistryAuth,
 });
 
 const ivoryDiceRoomDeployment = new k8s.apps.v1.Deployment(ivoryDiceRoomName, {
@@ -69,8 +74,7 @@ const ivoryDiceRoomDeployment = new k8s.apps.v1.Deployment(ivoryDiceRoomName, {
         containers: [
           {
             name: ivoryDiceRoomName,
-            image: ivoryDiceRoomImage.baseImageName,
-            imagePullPolicy: "Never",
+            image: ivoryDiceRoomImage.imageName,
             ports: [{ containerPort: 8080 }],
           },
         ],
