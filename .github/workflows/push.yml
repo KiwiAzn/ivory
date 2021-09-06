@@ -17,9 +17,7 @@ jobs:
           node-version: 14.x
       - run: npm install
       - name: Setup k8s config
-        run: |
-          echo $KUBECONFIG_CONTENTS > .kubeconfig
-          cat .kubeconfig
+        run: echo $KUBECONFIG_CONTENTS > .kubeconfig
         shell: bash
         env:
           KUBECONFIG_CONTENTS: ${{ secrets.KUBECONFIG_CONTENTS}}
@@ -30,4 +28,4 @@ jobs:
           work-dir: ./infrastructure
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-          KUBECONFIG: .kubeconfig
+          KUBECONFIG: ./infrastructure/.kubeconfig
