@@ -16,13 +16,16 @@ jobs:
         with:
           node-version: 14.x
       - run: npm install
-      - name: Setup k8s config
-        run: |
-          mkdir ~/.kube
-          echo $KUBECONFIG_CONTENTS > ~/.kube/config
-        shell: bash
-        env:
-          KUBECONFIG_CONTENTS: ${{ secrets.KUBECONFIG_CONTENTS}}
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Get Kubenetes config from Azure
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+            az aks get-credentials --resource-group IvoryRG --name ivory_aks
       - uses: pulumi/actions@v3
         with:
           command: up
