@@ -26,6 +26,7 @@ jobs:
           azcliversion: 2.0.72
           inlineScript: |
             az aks get-credentials --resource-group IvoryRG --name ivory_aks
+            cat ~/.kube/config
       - uses: pulumi/actions@v3
         with:
           command: up
@@ -33,4 +34,3 @@ jobs:
           work-dir: ./infrastructure
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-          KUBECONFIG: ~/.kube/config
