@@ -2,9 +2,10 @@ import * as path from "path";
 
 import * as k8s from "@pulumi/kubernetes";
 import * as docker from "@pulumi/docker";
-import { nanoid } from "nanoid";
 
-const imageTag = Buffer.from(nanoid()).toString("base64");
+const kubernetesProvider = new k8s.Provider("kubernetes-provider", {
+  cluster: "ivory_aks",
+});
 
 const containerRegistryAuth: docker.ImageRegistry = {
   server: "ivory.azurecr.io",
