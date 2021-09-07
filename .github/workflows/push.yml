@@ -26,7 +26,8 @@ jobs:
           azcliversion: 2.0.72
           inlineScript: |
             az aks get-credentials --resource-group IvoryRG --name ivory_aks
-            kubectl config use-context ivory_aks
+      - name: Set kubectl context
+        run: kubectl config use-context ivory_aks
       - uses: pulumi/actions@v3
         with:
           command: up
