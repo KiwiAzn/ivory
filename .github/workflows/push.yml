@@ -26,6 +26,7 @@ jobs:
           azcliversion: 2.0.72
           inlineScript: |
             az aks get-credentials --resource-group IvoryRG --name ivory_aks --file $GITHUB_WORKSPACE/infrastructure/kubeconfig
+            chmod 444 $GITHUB_WORKSPACE/infrastructure/kubeconfig
       - uses: pulumi/actions@v3
         with:
           command: up
