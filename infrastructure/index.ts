@@ -32,6 +32,7 @@ const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
     template: {
       metadata: { labels: ivoryAppLabels },
       spec: {
+        hostname: ivoryUiName,
         containers: [
           {
             name: ivoryUiName,
@@ -72,6 +73,7 @@ const ivoryDiceRoomDeployment = new k8s.apps.v1.Deployment(ivoryDiceRoomName, {
     template: {
       metadata: { labels: ivoryDiceRoomAppLabels },
       spec: {
+        hostname: ivoryDiceRoomName,
         containers: [
           {
             name: ivoryDiceRoomName,
