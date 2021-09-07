@@ -25,7 +25,7 @@ jobs:
         with:
           azcliversion: 2.0.72
           inlineScript: |
-            az aks get-credentials --resource-group IvoryRG --name ivory_aks
+            az aks get-credentials --resource-group IvoryRG --name ivory_aks --file $GITHUB_WORKSPACE/infrastructure/kubeconfig
       - name: Set kubectl context
         run: kubectl config use-context ivory_aks
       - uses: pulumi/actions@v3
@@ -35,3 +35,4 @@ jobs:
           work-dir: ./infrastructure
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          KUBECONFIG: ./infrastructure/kubeconfig
