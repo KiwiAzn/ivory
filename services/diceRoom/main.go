@@ -1,13 +1,23 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v8"
 	"github.com/kiwiazn/ivory/services/diceRoom/models"
 )
 
 func main() {
+	// Connect to redis
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
@@ -20,14 +30,21 @@ func main() {
 
 	r.GET("/room/:roomId/diceRolls", func(c *gin.Context) {
 		roomId := c.Param("roomId")
-		hub := hubs[roomId]
 
-		if hub != nil {
-			c.JSON(http.StatusOK, hub.diceRolls)
-			return
+		ctx := context.TODO()
+		key := "room:" + roomId + ":diceRolls"
+		result := rdb.LRange(ctx, key, 0, -1)
+
+		var diceRolls []models.DiceRollWithSender
+
+		for _, diceRollAsString := range result.Val() {
+			var diceRoll models.DiceRollWithSender
+			json.Unmarshal([]byte(diceRollAsString), &diceRoll)
+
+			diceRolls = append(diceRolls, diceRoll)
 		}
 
-		c.JSON(http.StatusOK, []models.DiceRollWithSender{})
+		c.JSON(http.StatusOK, diceRolls)
 	})
 
 	r.GET("/room/:roomId/diceRolls/ws", func(c *gin.Context) {
@@ -35,7 +52,7 @@ func main() {
 		hub := hubs[roomId]
 
 		if hub == nil {
-			hubs[roomId] = newHub()
+			hubs[roomId] = newHub(rdb, roomId)
 			hub = hubs[roomId]
 			go hub.run()
 		}

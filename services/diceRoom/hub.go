@@ -1,14 +1,19 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 
+	"github.com/go-redis/redis/v8"
 	"github.com/kiwiazn/ivory/services/diceRoom/models"
 )
 
 // Hub maintains the set of active clients and broadcasts messages to the clients.
 type Hub struct {
+	// Room name
+	name string
+
 	// Registered clients.
 	clients map[*Client]bool
 
@@ -21,17 +26,18 @@ type Hub struct {
 	// Unregister requests from clients.
 	unregister chan *Client
 
-	// DiceRolls
-	diceRolls []models.DiceRollWithSender
+	// Redis client
+	redisClient *redis.Client
 }
 
-func newHub() *Hub {
+func newHub(redisClient *redis.Client, name string) *Hub {
 	return &Hub{
-		broadcast:  make(chan []byte),
-		register:   make(chan *Client),
-		unregister: make(chan *Client),
-		clients:    make(map[*Client]bool),
-		diceRolls:  make([]models.DiceRollWithSender, 0),
+		name:        name,
+		broadcast:   make(chan []byte),
+		register:    make(chan *Client),
+		unregister:  make(chan *Client),
+		clients:     make(map[*Client]bool),
+		redisClient: redisClient,
 	}
 }
 
@@ -81,7 +87,10 @@ func (h *Hub) run() {
 				continue
 			}
 
-			h.diceRolls = append(h.diceRolls, diceRoll)
+			ctx := context.TODO()
+			key := "room:" + h.name + ":diceRolls"
+			encodedDiceRoll, err := json.Marshal(diceRoll)
+			h.redisClient.LPush(ctx, key, encodedDiceRoll)
 
 			for client := range h.clients {
 				select {
