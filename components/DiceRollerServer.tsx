@@ -15,8 +15,7 @@ import React, { FunctionComponent, useRef } from "react";
 import { FormattedMessage } from "react-intl";
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAtom } from "jotai";
-import { diceRollsAtom } from "./atoms";
+
 import dynamic from "next/dynamic";
 
 export const HelperTextError: React.FunctionComponent<HelpTextProps> = (
@@ -62,8 +61,6 @@ const DynamicDiceRoomHandler = dynamic(
 );
 
 const DiceRoller: FunctionComponent = () => {
-  const [previousDiceRolls, setPreviousDiceRolls] = useAtom(diceRollsAtom);
-
   const {
     register,
     handleSubmit,

@@ -1,7 +1,10 @@
 import { Container } from "@chakra-ui/react";
-import type { NextPage } from "next";
+import { useAtom } from "jotai";
+import type { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import { useEffect } from "react";
+import { diceRollsAtom, DiceRoll } from "../../components/atoms";
 import DiceRollerServer from "../../components/DiceRollerServer";
 import Hero from "../../components/Hero";
 import LightModeToggle from "../../components/LightModeToggle";
@@ -11,7 +14,16 @@ const DynamicNameModalOpener = dynamic(
   { ssr: false }
 );
 
-const Home: NextPage = () => {
+interface Props {
+  diceRolls: Array<DiceRoll>;
+}
+
+const Room: NextPage<Props> = ({ diceRolls }) => {
+  const [_diceRolls, setDiceRolls] = useAtom(diceRollsAtom);
+  useEffect(() => {
+    setDiceRolls(diceRolls);
+  }, [setDiceRolls, diceRolls]);
+
   return (
     <div>
       <Head>
@@ -32,4 +44,20 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  if (!params) {
+    return { props: {} };
+  }
+
+  const { roomId } = params;
+  const response = await fetch(
+    `http://localhost:8080/room/${roomId}/diceRolls`
+  );
+  const diceRolls = await response.json();
+
+  return {
+    props: { diceRolls }, // will be passed to the page component as props
+  };
+};
+
+export default Room;
