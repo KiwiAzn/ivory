@@ -4,7 +4,7 @@ import * as k8s from "@pulumi/kubernetes";
 import * as docker from "@pulumi/docker";
 
 const kubernetesProvider = new k8s.Provider("kubernetes-provider", {
-  cluster: "ivory_aks",
+  cluster: "ivory_aks2",
 });
 
 const containerRegistryAuth: docker.ImageRegistry = {
