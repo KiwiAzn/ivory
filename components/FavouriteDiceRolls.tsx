@@ -13,6 +13,7 @@ import {
   useDisclosure,
   Text,
   Stack,
+  Skeleton,
 } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { FunctionComponent, useRef, useState } from "react";
@@ -38,6 +39,19 @@ const FavouriteDiceRolls: FunctionComponent<FavouriteDiceRollsProps> = ({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
+
+  if (savedDiceRolls.length === 0) {
+    return (
+      <Wrap spacing="4">
+        <Skeleton>
+          <Tag>
+            <TagLabel>Initiative</TagLabel>
+          </Tag>
+        </Skeleton>
+      </Wrap>
+    );
+  }
+
   return (
     <>
       <Wrap spacing="4">
