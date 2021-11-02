@@ -8,7 +8,7 @@ import * as docker from "@pulumi/docker";
 const pass = new random.RandomPassword("pass", { length: 10 });
 
 new k8s.Provider("kubernetes-provider", {
-  cluster: "ivory_aks2",
+  cluster: "ivory_aks",
 });
 
 const namespace = new k8s.core.v1.Namespace("redis-ns");
