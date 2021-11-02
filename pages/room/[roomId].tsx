@@ -1,14 +1,13 @@
 import { Container } from "@chakra-ui/react";
-import { useAtom } from "jotai";
 import type { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { useEffect } from "react";
 import { diceRollsAtom, DiceRoll } from "../../components/atoms";
 import DiceRollerServer from "../../components/DiceRollerServer";
 import Hero from "../../components/Hero";
 import LightModeToggle from "../../components/LightModeToggle";
 import getConfig from "next/config";
+import { useHydrateAtoms } from "jotai/utils";
 
 const DynamicNameModalOpener = dynamic(
   () => import("../../components/NameModal/NameModalOpener"),
@@ -20,10 +19,11 @@ interface Props {
 }
 
 const Room: NextPage<Props> = ({ diceRolls }) => {
-  const [_diceRolls, setDiceRolls] = useAtom(diceRollsAtom);
-  useEffect(() => {
-    setDiceRolls(diceRolls);
-  }, [setDiceRolls, diceRolls]);
+  const diceRollsInitialState: [typeof diceRollsAtom, DiceRoll[]] = [
+    diceRollsAtom,
+    diceRolls,
+  ];
+  useHydrateAtoms([diceRollsInitialState]);
 
   return (
     <div>
@@ -59,8 +59,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const response = await fetch(endpoint);
 
   const diceRolls = (await response.json()) ?? [];
-
-  console.log(diceRolls);
 
   return {
     props: { diceRolls }, // will be passed to the page component as props

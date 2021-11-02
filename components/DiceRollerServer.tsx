@@ -17,6 +17,7 @@ import { WarningTwoIcon } from "@chakra-ui/icons";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import dynamic from "next/dynamic";
+import PreviousDiceRolls from "./PreviousDiceRolls";
 
 export const HelperTextError: React.FunctionComponent<HelpTextProps> = (
   props
@@ -42,8 +43,6 @@ export const validateDiceNotation = (value: string) => {
     }
   }
 };
-
-const DynamicPreviousDiceRolls = dynamic(() => import("./PreviousDiceRolls"));
 
 const DynamicAddDiceNotationToFavourites = dynamic(
   () =>
@@ -142,9 +141,7 @@ const DiceRoller: FunctionComponent = () => {
       <DynamicFavouriteDiceRolls
         onSelectDiceNotation={handleSelectDiceNotation}
       />
-      <DynamicPreviousDiceRolls
-        onSelectDiceNotation={handleSelectDiceNotation}
-      />
+      <PreviousDiceRolls onSelectDiceNotation={handleSelectDiceNotation} />
     </VStack>
   );
 };

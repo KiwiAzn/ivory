@@ -28,6 +28,8 @@ const (
 
 	// Maximum message size allowed from peer.
 	maxMessageSize = 512
+
+	day = 86400
 )
 
 var (
@@ -92,6 +94,7 @@ func (c *Client) readPump() {
 		encodedDiceRoll, err := json.Marshal(diceRoll)
 		c.redisClient.Publish(ctx, key, encodedDiceRoll)
 		c.redisClient.LPush(ctx, key+":diceRolls", encodedDiceRoll)
+		c.redisClient.Expire(ctx, key+":diceRolls", 1*day)
 	}
 }
 
