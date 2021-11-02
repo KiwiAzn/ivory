@@ -8,6 +8,9 @@ import Hero from "../../components/Hero";
 import LightModeToggle from "../../components/LightModeToggle";
 import getConfig from "next/config";
 import { useHydrateAtoms } from "jotai/utils";
+import savedDiceRollsAtom, {
+  SavedDiceRoll,
+} from "../../components/atoms/savedDiceRollsAtom";
 
 const DynamicNameModalOpener = dynamic(
   () => import("../../components/NameModal/NameModalOpener"),
@@ -23,6 +26,7 @@ const Room: NextPage<Props> = ({ diceRolls }) => {
     diceRollsAtom,
     diceRolls,
   ];
+
   useHydrateAtoms([diceRollsInitialState]);
 
   return (

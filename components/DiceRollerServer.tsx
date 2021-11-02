@@ -18,6 +18,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import dynamic from "next/dynamic";
 import PreviousDiceRolls from "./PreviousDiceRolls";
+import FavouriteDiceRolls from "./FavouriteDiceRolls";
 
 export const HelperTextError: React.FunctionComponent<HelpTextProps> = (
   props
@@ -47,11 +48,6 @@ export const validateDiceNotation = (value: string) => {
 const DynamicAddDiceNotationToFavourites = dynamic(
   () =>
     import("./AddDiceNotationToFavourites/AddDiceNotationToFavouritesButton")
-);
-
-const DynamicFavouriteDiceRolls = dynamic(
-  () => import("./FavouriteDiceRolls"),
-  { ssr: false }
 );
 
 const DynamicDiceRoomHandler = dynamic(
@@ -138,9 +134,7 @@ const DiceRoller: FunctionComponent = () => {
           </ButtonGroup>
         </HStack>
       </form>
-      <DynamicFavouriteDiceRolls
-        onSelectDiceNotation={handleSelectDiceNotation}
-      />
+      <FavouriteDiceRolls onSelectDiceNotation={handleSelectDiceNotation} />
       <PreviousDiceRolls onSelectDiceNotation={handleSelectDiceNotation} />
     </VStack>
   );

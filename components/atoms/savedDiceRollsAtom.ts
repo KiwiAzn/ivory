@@ -1,11 +1,11 @@
-import { atomWithLocalStorage } from "./utils";
+import { atomWithStorage } from "jotai/utils";
 
 export interface SavedDiceRoll {
   name: string;
   diceNotation: string;
 }
 
-const savedDiceRollsAtom = atomWithLocalStorage<Array<SavedDiceRoll>>(
+const savedDiceRollsAtom = atomWithStorage<Array<SavedDiceRoll>>(
   "savedDiceRolls",
   []
 );
