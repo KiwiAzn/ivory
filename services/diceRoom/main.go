@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
@@ -11,11 +12,30 @@ import (
 )
 
 func main() {
+	// Default values for redis
+	redisHost := "localhost"
+	redisPort := "6379"
+	redisPassword := ""
+
+	if os.Getenv("REDIS_HOST") != "" {
+		redisHost = os.Getenv("REDIS_HOST")
+	}
+
+	if os.Getenv("REDIS_HOST") != "" {
+		redisHost = os.Getenv("REDIS_HOST")
+	}
+
+	if os.Getenv("REDIS_PASSWORD") != "" {
+		redisPassword = os.Getenv("REDIS_PASSWORD")
+	}
+
+	redisAddress := redisHost + ":" + redisPort
+
 	// Connect to redis
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+		Addr:     redisAddress,
+		Password: redisPassword, // no password set
+		DB:       0,             // use default DB
 	})
 
 	r := gin.Default()
