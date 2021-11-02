@@ -1,11 +1,11 @@
 # Rebuild the source code only when needed
-FROM node:alpine AS builder
+FROM node:lts-alpine AS builder
 WORKDIR /app
 COPY . .
 RUN yarn build && yarn install --immutable --immutable-cache
 
 # Production image, copy all the files and run next
-FROM node:alpine AS runner
+FROM node:lts-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
