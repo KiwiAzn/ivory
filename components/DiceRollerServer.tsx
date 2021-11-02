@@ -15,9 +15,10 @@ import React, { FunctionComponent, useRef } from "react";
 import { FormattedMessage } from "react-intl";
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAtom } from "jotai";
-import { diceRollsAtom } from "./atoms";
+
 import dynamic from "next/dynamic";
+import PreviousDiceRolls from "./PreviousDiceRolls";
+import FavouriteDiceRolls from "./FavouriteDiceRolls";
 
 export const HelperTextError: React.FunctionComponent<HelpTextProps> = (
   props
@@ -44,16 +45,9 @@ export const validateDiceNotation = (value: string) => {
   }
 };
 
-const DynamicPreviousDiceRolls = dynamic(() => import("./PreviousDiceRolls"));
-
 const DynamicAddDiceNotationToFavourites = dynamic(
   () =>
     import("./AddDiceNotationToFavourites/AddDiceNotationToFavouritesButton")
-);
-
-const DynamicFavouriteDiceRolls = dynamic(
-  () => import("./FavouriteDiceRolls"),
-  { ssr: false }
 );
 
 const DynamicDiceRoomHandler = dynamic(
@@ -62,8 +56,6 @@ const DynamicDiceRoomHandler = dynamic(
 );
 
 const DiceRoller: FunctionComponent = () => {
-  const [previousDiceRolls, setPreviousDiceRolls] = useAtom(diceRollsAtom);
-
   const {
     register,
     handleSubmit,
@@ -142,12 +134,8 @@ const DiceRoller: FunctionComponent = () => {
           </ButtonGroup>
         </HStack>
       </form>
-      <DynamicFavouriteDiceRolls
-        onSelectDiceNotation={handleSelectDiceNotation}
-      />
-      <DynamicPreviousDiceRolls
-        onSelectDiceNotation={handleSelectDiceNotation}
-      />
+      <FavouriteDiceRolls onSelectDiceNotation={handleSelectDiceNotation} />
+      <PreviousDiceRolls onSelectDiceNotation={handleSelectDiceNotation} />
     </VStack>
   );
 };

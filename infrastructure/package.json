@@ -5,8 +5,9 @@
   },
   "dependencies": {
     "@pulumi/docker": "^3.1.0",
-    "@pulumi/kubernetes": "^3.0.0",
+    "@pulumi/kubernetes": "^3.8.3",
     "@pulumi/kubernetesx": "^0.1.5",
-    "@pulumi/pulumi": "^3.0.0"
+    "@pulumi/pulumi": "^3.16.0",
+    "@pulumi/random": "^4.3.1"
   }
 }
