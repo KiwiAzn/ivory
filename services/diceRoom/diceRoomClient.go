@@ -5,11 +5,15 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
 	"log"
 	"net/http"
 	"time"
 
+	"github.com/go-redis/redis/v8"
 	"github.com/gorilla/websocket"
+	"github.com/kiwiazn/ivory/services/diceRoom/models"
 )
 
 const (
@@ -39,13 +43,17 @@ var upgrader = websocket.Upgrader{
 
 // Client is a middleman between the websocket connection and the hub.
 type Client struct {
-	hub *Hub
-
 	// The websocket connection.
 	conn *websocket.Conn
 
 	// Buffered channel of outbound messages.
 	send chan []byte
+
+	// Room name
+	roomName string
+
+	// Redis client
+	redisClient *redis.Client
 }
 
 // readPump pumps messages from the websocket connection to the hub.
@@ -55,12 +63,14 @@ type Client struct {
 // reads from this goroutine.
 func (c *Client) readPump() {
 	defer func() {
-		c.hub.unregister <- c
 		c.conn.Close()
 	}()
 	c.conn.SetReadLimit(maxMessageSize)
 	c.conn.SetReadDeadline(time.Now().Add(pongWait))
 	c.conn.SetPongHandler(func(string) error { c.conn.SetReadDeadline(time.Now().Add(pongWait)); return nil })
+
+	key := "room:" + c.roomName
+
 	for {
 		_, message, err := c.conn.ReadMessage()
 		if err != nil {
@@ -69,7 +79,24 @@ func (c *Client) readPump() {
 			}
 			break
 		}
-		c.hub.broadcast <- message
+
+		var diceRoll models.DiceRollWithSender
+		jsonErr := json.Unmarshal(message, &diceRoll)
+
+		if jsonErr != nil {
+			continue
+		}
+
+		if !validateDiceRoll(diceRoll) {
+			continue
+		}
+
+		log.Println(key, diceRoll)
+
+		ctx := context.TODO()
+		encodedDiceRoll, err := json.Marshal(diceRoll)
+		c.redisClient.Publish(ctx, key, encodedDiceRoll)
+		c.redisClient.LPush(ctx, key+":diceRolls", encodedDiceRoll)
 	}
 }
 
@@ -80,13 +107,21 @@ func (c *Client) readPump() {
 // executing all writes from this goroutine.
 func (c *Client) writePump() {
 	ticker := time.NewTicker(pingPeriod)
+
+	ctx := context.TODO()
+	key := "room:" + c.roomName
+
+	pubsub := c.redisClient.Subscribe(ctx, key)
+
+	redisChannel := pubsub.Channel()
+
 	defer func() {
 		ticker.Stop()
 		c.conn.Close()
 	}()
 	for {
 		select {
-		case message, ok := <-c.send:
+		case message, ok := <-redisChannel:
 			c.conn.SetWriteDeadline(time.Now().Add(writeWait))
 			if !ok {
 				// The hub closed the channel.
@@ -98,14 +133,7 @@ func (c *Client) writePump() {
 			if err != nil {
 				return
 			}
-			w.Write(message)
-
-			// Add queued chat messages to the current websocket message.
-			n := len(c.send)
-			for i := 0; i < n; i++ {
-				w.Write(newline)
-				w.Write(<-c.send)
-			}
+			w.Write([]byte(message.Payload))
 
 			if err := w.Close(); err != nil {
 				return
@@ -119,15 +147,37 @@ func (c *Client) writePump() {
 	}
 }
 
+func validateDiceRoll(diceRoll models.DiceRollWithSender) bool {
+	if (models.DiceRollWithSender{}) == diceRoll {
+		return false
+	}
+
+	if diceRoll.RollerName == "" {
+		log.Println("Missing RollerName")
+		return false
+	}
+
+	if diceRoll.Notation == "" {
+		log.Println("Missing Notation")
+		return false
+	}
+
+	if diceRoll.ResultBreakdown == "" {
+		log.Println("Missing ResultBeakdown")
+		return false
+	}
+
+	return true
+}
+
 // serveWs handles websocket requests from the peer.
-func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
+func serveWs(roomName string, redisClient *redis.Client, w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256)}
-	client.hub.register <- client
+	client := &Client{redisClient: redisClient, roomName: roomName, conn: conn, send: make(chan []byte, 256)}
 
 	// Allow collection of memory referenced by the caller by doing all work in
 	// new goroutines.

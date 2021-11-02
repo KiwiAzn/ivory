@@ -26,13 +26,13 @@ func main() {
 	})
 
 	// Setup websockets
-	hubs := make(map[string]*Hub)
+	// hubs := make(map[string]*Hub)
 
-	r.GET("/room/:roomId/diceRolls", func(c *gin.Context) {
-		roomId := c.Param("roomId")
+	r.GET("/room/:roomName/diceRolls", func(c *gin.Context) {
+		roomName := c.Param("roomName")
 
 		ctx := context.TODO()
-		key := "room:" + roomId + ":diceRolls"
+		key := "room:" + roomName + ":diceRolls"
 		result := rdb.LRange(ctx, key, 0, -1)
 
 		var diceRolls []models.DiceRollWithSender
@@ -47,17 +47,10 @@ func main() {
 		c.JSON(http.StatusOK, diceRolls)
 	})
 
-	r.GET("/room/:roomId/diceRolls/ws", func(c *gin.Context) {
-		roomId := c.Param("roomId")
-		hub := hubs[roomId]
+	r.GET("/room/:roomName/diceRolls/ws", func(c *gin.Context) {
+		roomName := c.Param("roomName")
 
-		if hub == nil {
-			hubs[roomId] = newHub(rdb, roomId)
-			hub = hubs[roomId]
-			go hub.run()
-		}
-
-		serveWs(hub, c.Writer, c.Request)
+		serveWs(roomName, rdb, c.Writer, c.Request)
 	})
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
