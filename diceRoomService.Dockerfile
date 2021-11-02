@@ -7,4 +7,8 @@ RUN go build -o /dice-room
 
 EXPOSE 8080
 
+ARG REDIS_HOST
+ARG REDIS_PORT
+ARG REDIS_PASSWORD
+
 CMD ["/dice-room"]

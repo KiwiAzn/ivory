@@ -8,6 +8,7 @@ import { diceRollsAtom, DiceRoll } from "../../components/atoms";
 import DiceRollerServer from "../../components/DiceRollerServer";
 import Hero from "../../components/Hero";
 import LightModeToggle from "../../components/LightModeToggle";
+import getConfig from "next/config";
 
 const DynamicNameModalOpener = dynamic(
   () => import("../../components/NameModal/NameModalOpener"),
@@ -50,10 +51,16 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   }
 
   const { roomId } = params;
-  const response = await fetch(
-    `http://localhost:8080/room/${roomId}/diceRolls`
-  );
-  const diceRolls = await response.json();
+
+  const { serverRuntimeConfig } = getConfig();
+  const { backendAddress } = serverRuntimeConfig;
+  const endpoint = `${backendAddress}/room/${roomId}/diceRolls`;
+
+  const response = await fetch(endpoint);
+
+  const diceRolls = (await response.json()) ?? [];
+
+  console.log(diceRolls);
 
   return {
     props: { diceRolls }, // will be passed to the page component as props

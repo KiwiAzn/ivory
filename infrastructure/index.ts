@@ -44,47 +44,6 @@ const containerRegistryAuth: docker.ImageRegistry = {
   password: "C37dFUdxLF98Xv3If/q=90ajnHN6BMKW",
 };
 
-const ivoryUiName = "ivory-ui";
-const ivoryAppLabels = { app: ivoryUiName };
-
-const ivoryUiImage = new docker.Image(ivoryUiName, {
-  imageName: `${containerRegistryAuth.server}/ivory-ui`,
-  build: {
-    context: path.join(__dirname, ".."),
-    dockerfile: path.join(__dirname, "..", "ui.Dockerfile"),
-  },
-  registry: containerRegistryAuth,
-});
-
-const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
-  spec: {
-    selector: { matchLabels: ivoryAppLabels },
-    replicas: 1,
-    template: {
-      metadata: { labels: ivoryAppLabels },
-      spec: {
-        hostname: ivoryUiName,
-        containers: [
-          {
-            name: ivoryUiName,
-            image: ivoryUiImage.imageName,
-            ports: [{ containerPort: 3000 }],
-          },
-        ],
-      },
-    },
-  },
-});
-
-const ivoryUiServer = new k8s.core.v1.Service(ivoryUiName, {
-  metadata: { labels: ivoryUiDeployment.spec.template.metadata.labels },
-  spec: {
-    type: "ClusterIP",
-    ports: [{ port: 3000, targetPort: 3000, protocol: "TCP" }],
-    selector: ivoryAppLabels,
-  },
-});
-
 const ivoryDiceRoomName = "ivory-dice-room";
 const ivoryDiceRoomAppLabels = { app: ivoryDiceRoomName };
 
@@ -137,6 +96,57 @@ const ivoryDiceRoomService = new k8s.core.v1.Service(ivoryDiceRoomName, {
     type: "ClusterIP",
     ports: [{ port: 8080, targetPort: 8080, protocol: "TCP" }],
     selector: ivoryDiceRoomAppLabels,
+  },
+});
+
+const ivoryUiName = "ivory-ui";
+const ivoryAppLabels = { app: ivoryUiName };
+
+const ivoryUiImage = new docker.Image(ivoryUiName, {
+  imageName: `${containerRegistryAuth.server}/ivory-ui`,
+  build: {
+    context: path.join(__dirname, ".."),
+    dockerfile: path.join(__dirname, "..", "ui.Dockerfile"),
+  },
+  registry: containerRegistryAuth,
+});
+
+const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
+  spec: {
+    selector: { matchLabels: ivoryAppLabels },
+    replicas: 1,
+    template: {
+      metadata: { labels: ivoryAppLabels },
+      spec: {
+        hostname: ivoryUiName,
+        containers: [
+          {
+            name: ivoryUiName,
+            image: ivoryUiImage.imageName,
+            ports: [{ containerPort: 3000 }],
+            env: [
+              {
+                name: "BACKEND_HOST",
+                value: ivoryDiceRoomService.spec.clusterIP,
+              },
+              {
+                name: "BACKEND_PORT",
+                value: "8080",
+              },
+            ],
+          },
+        ],
+      },
+    },
+  },
+});
+
+const ivoryUiServer = new k8s.core.v1.Service(ivoryUiName, {
+  metadata: { labels: ivoryUiDeployment.spec.template.metadata.labels },
+  spec: {
+    type: "ClusterIP",
+    ports: [{ port: 3000, targetPort: 3000, protocol: "TCP" }],
+    selector: ivoryAppLabels,
   },
 });
 

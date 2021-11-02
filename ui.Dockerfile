@@ -2,8 +2,7 @@
 FROM node:lts-alpine AS builder
 WORKDIR /app
 COPY . .
-RUN yarn build && yarn install --immutable --immutable-cache
-
+RUN yarn build
 # Production image, copy all the files and run next
 FROM node:lts-alpine AS runner
 WORKDIR /app
@@ -30,5 +29,8 @@ USER nextjs
 EXPOSE 3000
 
 ENV NEXT_TELEMETRY_DISABLED 1
+
+ARG BACKEND_HOST
+ARG BACKEND_PORT
 
 CMD ["yarn", "start"]
