@@ -46,9 +46,6 @@ type Client struct {
 	// The websocket connection.
 	conn *websocket.Conn
 
-	// Buffered channel of outbound messages.
-	send chan []byte
-
 	// Room name
 	roomName string
 
@@ -90,8 +87,6 @@ func (c *Client) readPump() {
 		if !validateDiceRoll(diceRoll) {
 			continue
 		}
-
-		log.Println(key, diceRoll)
 
 		ctx := context.TODO()
 		encodedDiceRoll, err := json.Marshal(diceRoll)
@@ -177,7 +172,7 @@ func serveWs(roomName string, redisClient *redis.Client, w http.ResponseWriter, 
 		log.Println(err)
 		return
 	}
-	client := &Client{redisClient: redisClient, roomName: roomName, conn: conn, send: make(chan []byte, 256)}
+	client := &Client{redisClient: redisClient, roomName: roomName, conn: conn}
 
 	// Allow collection of memory referenced by the caller by doing all work in
 	// new goroutines.

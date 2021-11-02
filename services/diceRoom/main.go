@@ -25,9 +25,6 @@ func main() {
 		})
 	})
 
-	// Setup websockets
-	// hubs := make(map[string]*Hub)
-
 	r.GET("/room/:roomName/diceRolls", func(c *gin.Context) {
 		roomName := c.Param("roomName")
 
