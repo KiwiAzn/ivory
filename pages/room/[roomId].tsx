@@ -24,7 +24,10 @@ interface Props {
 const Room: NextPage<Props> = ({ diceRolls }) => {
   const diceRollsInitialState: [typeof diceRollsAtom, DiceRoll[]] = [
     diceRollsAtom,
-    diceRolls,
+    diceRolls.map(({ rolledAt, ...other }) => ({
+      rolledAt: new Date(rolledAt),
+      ...other,
+    })),
   ];
 
   useHydrateAtoms([diceRollsInitialState]);

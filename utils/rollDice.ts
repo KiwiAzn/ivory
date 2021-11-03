@@ -8,6 +8,7 @@ const rollDice = (diceNotation: string): DiceRoll => {
     notation: newDiceRoll.notation,
     result: newDiceRoll.total,
     resultBreakdown: newDiceRoll.rolls.join(" "),
+    rolledAt: new Date(),
   };
 
   return diceRoll;

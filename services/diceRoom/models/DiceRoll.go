@@ -1,6 +1,8 @@
 package models
 
-type DiceRollWithSender struct {
+import "time"
+
+type DiceRoll struct {
 	// The name of who rolled this dice roll.
 	RollerName string `json:"rollerName,omitempty"`
 
@@ -11,4 +13,6 @@ type DiceRollWithSender struct {
 	ResultBreakdown string `json:"resultBreakdown,omitempty"`
 
 	Result int32 `json:"result,omitempty"`
+
+	RolledAt time.Time `json:"rolledAt,omitempty"`
 }

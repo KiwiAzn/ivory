@@ -52,10 +52,10 @@ func main() {
 		key := "room:" + roomName + ":diceRolls"
 		result := rdb.LRange(ctx, key, 0, -1)
 
-		var diceRolls []models.DiceRollWithSender
+		var diceRolls []models.DiceRoll
 
 		for _, diceRollAsString := range result.Val() {
-			var diceRoll models.DiceRollWithSender
+			var diceRoll models.DiceRoll
 			json.Unmarshal([]byte(diceRollAsString), &diceRoll)
 
 			diceRolls = append(diceRolls, diceRoll)

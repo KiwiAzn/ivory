@@ -79,7 +79,7 @@ func (c *Client) readPump() {
 			break
 		}
 
-		var diceRoll models.DiceRollWithSender
+		var diceRoll models.DiceRollMessage
 		jsonErr := json.Unmarshal(message, &diceRoll)
 
 		if jsonErr != nil {
@@ -90,8 +90,16 @@ func (c *Client) readPump() {
 			continue
 		}
 
+		diceRollWithTimeStamp := models.DiceRoll{
+			RollerName:      diceRoll.RollerName,
+			Notation:        diceRoll.Notation,
+			ResultBreakdown: diceRoll.Notation,
+			Result:          diceRoll.Result,
+			RolledAt:        time.Now(),
+		}
+
 		ctx := context.TODO()
-		encodedDiceRoll, err := json.Marshal(diceRoll)
+		encodedDiceRoll, err := json.Marshal(diceRollWithTimeStamp)
 		c.redisClient.Publish(ctx, key, encodedDiceRoll)
 		c.redisClient.LPush(ctx, key+":diceRolls", encodedDiceRoll)
 		c.redisClient.Expire(ctx, key+":diceRolls", 1*dayInNanoSeconds)
@@ -145,8 +153,8 @@ func (c *Client) writePump() {
 	}
 }
 
-func validateDiceRoll(diceRoll models.DiceRollWithSender) bool {
-	if (models.DiceRollWithSender{}) == diceRoll {
+func validateDiceRoll(diceRoll models.DiceRollMessage) bool {
+	if (models.DiceRollMessage{}) == diceRoll {
 		return false
 	}
 

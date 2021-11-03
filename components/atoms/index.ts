@@ -5,6 +5,7 @@ export interface DiceRoll {
   notation: string;
   resultBreakdown: string;
   result: number;
+  rolledAt: Date;
 }
 
 export const diceRollsAtom = atom<Array<DiceRoll>>([]);
