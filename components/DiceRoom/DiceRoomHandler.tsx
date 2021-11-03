@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { useRouter } from "next/dist/client/router";
 import { FunctionComponent, MutableRefObject, Ref } from "react";
-import { diceRollsAtom } from "../atoms";
+import { DiceRoll, diceRollsAtom } from "../atoms";
 import useWebSocket from "react-use-websocket";
 import nameAtom from "../atoms/nameAtom";
 import rollDice from "../../utils/rollDice";
@@ -21,6 +21,8 @@ const DiceRoomHandler: FunctionComponent<DiceRoomHandlerProps> = (props) => {
 interface _DiceRoomHandlerProps extends DiceRoomHandlerProps {
   roomId: string;
 }
+
+type DiceRollMessage = Omit<DiceRoll, "rolledAt">;
 
 const _DiceRoomHandler: FunctionComponent<_DiceRoomHandlerProps> = ({
   roomId,
@@ -42,6 +44,8 @@ const _DiceRoomHandler: FunctionComponent<_DiceRoomHandlerProps> = ({
     onMessage: ({ data }) => {
       const diceRoll = JSON.parse(data);
 
+      diceRoll.rolledAt = new Date(diceRoll.rolledAt);
+
       setPreviousDiceRolls([diceRoll, ...previousDiceRolls]);
     },
   });
@@ -49,7 +53,10 @@ const _DiceRoomHandler: FunctionComponent<_DiceRoomHandlerProps> = ({
   rollDiceRef!.current = (diceNotation: string) => {
     const diceRoll = rollDice(diceNotation);
     diceRoll.rollerName = name;
-    sendJsonMessage(diceRoll);
+
+    const diceRollMessage: DiceRollMessage = { ...diceRoll };
+
+    sendJsonMessage(diceRollMessage);
   };
 
   return null;
