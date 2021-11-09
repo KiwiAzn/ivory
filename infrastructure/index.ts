@@ -252,8 +252,8 @@ const ivoryDiceAppZone = pulumi.output(
 
 const record = new cloudflare.Record("record", {
   name: process.env.BRANCH_NAME ?? "dev",
-  // @ts-ignore
-  zoneId: ivoryDiceAppZone.zones[0].id,
+  zoneId: ivoryDiceAppZone.zones[0].id as pulumi.Input<string>,
   type: "A",
   value: publicIp,
+  proxied: true,
 });
