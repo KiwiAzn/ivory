@@ -240,20 +240,26 @@ const nginxService = k8s.core.v1.Service.get(
 
 export const publicIp = nginxService.status.loadBalancer.ingress[0].ip;
 
-const ivoryDiceAppZone = pulumi.output(
-  cloudflare.getZones({
-    filter: {
-      name: "ivorydice.app",
-    },
-  })
-);
+let record;
 
-const record = new cloudflare.Record("record", {
-  name: process.env.BRANCH_NAME ?? "dev",
-  zoneId: ivoryDiceAppZone.zones[0].id as pulumi.Input<string>,
-  type: "A",
-  value: publicIp,
-  proxied: true,
-});
+const branchName = process.env.BRANCH_NAME ?? "main";
 
-export const hostname = record.hostname;
+if (branchName !== "main") {
+  const ivoryDiceAppZone = pulumi.output(
+    cloudflare.getZones({
+      filter: {
+        name: "ivorydice.app",
+      },
+    })
+  );
+
+  record = new cloudflare.Record("record", {
+    name: process.env.BRANCH_NAME,
+    zoneId: ivoryDiceAppZone.zones[0].id as pulumi.Input<string>,
+    type: "A",
+    value: publicIp,
+    proxied: true,
+  });
+}
+
+export const hostname = record.hostname ?? "https://ivorydice.app";
