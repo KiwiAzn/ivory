@@ -11,13 +11,13 @@ new k8s.Provider("kubernetes-provider", {
   cluster: "ivory_aks",
 });
 
-const namespace = new k8s.core.v1.Namespace("redis-ns");
+const redisNamespace = new k8s.core.v1.Namespace("redis-ns");
 const redis = new k8s.helm.v3.Release("redis", {
   chart: "redis",
   repositoryOpts: {
     repo: "https://charts.bitnami.com/bitnami",
   },
-  namespace: namespace.metadata.name,
+  namespace: redisNamespace.metadata.name,
   values: {
     global: {
       redis: {
