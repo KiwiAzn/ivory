@@ -262,4 +262,4 @@ if (branchName !== "main") {
   });
 }
 
-export const hostname = record.hostname ?? "https://ivorydice.app";
+export const hostname = record?.hostname ?? "https://ivorydice.app";
