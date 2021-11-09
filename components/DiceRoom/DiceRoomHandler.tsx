@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useRouter } from "next/dist/client/router";
-import { FunctionComponent, MutableRefObject, Ref } from "react";
+import { FunctionComponent, MutableRefObject } from "react";
 import { DiceRoll, diceRollsAtom } from "../atoms";
 import useWebSocket from "react-use-websocket";
 import nameAtom from "../atoms/nameAtom";
@@ -41,6 +41,7 @@ const _DiceRoomHandler: FunctionComponent<_DiceRoomHandlerProps> = ({
   socketUrl.protocol = socketUrl.protocol === "https:" ? "wss:" : "ws:";
 
   const { sendJsonMessage } = useWebSocket(socketUrl.toString(), {
+    shouldReconnect: () => true,
     onMessage: ({ data }) => {
       const diceRoll = JSON.parse(data);
 
