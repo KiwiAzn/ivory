@@ -1,4 +1,4 @@
-name: Pulumi
+name: Main
 on:
   push:
     branches:
