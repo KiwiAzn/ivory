@@ -254,7 +254,7 @@ if (branchName !== "main") {
   );
 
   record = new cloudflare.Record("record", {
-    name: process.env.BRANCH_NAME,
+    name: branchName,
     zoneId: ivoryDiceAppZone.zones[0].id as pulumi.Input<string>,
     type: "A",
     value: publicIp,
