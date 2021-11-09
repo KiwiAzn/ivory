@@ -1,0 +1,42 @@
+name: Pulumi
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  preview:
+    name: Update
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./infrastructure
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      - run: npm install
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Get Kubenetes config from Azure
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+            az aks get-credentials --resource-group IvoryRG --name ivory_aks --file $GITHUB_WORKSPACE/infrastructure/kubeconfig
+            chmod 444 $GITHUB_WORKSPACE/infrastructure/kubeconfig
+      - uses: pulumi/actions@v3
+        with:
+          command: up
+          stack-name: ${{ github.head_ref }}
+          work-dir: ./infrastructure
+          upsert: true
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          KUBECONFIG: ./kubeconfig
