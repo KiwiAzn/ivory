@@ -151,7 +151,7 @@ const ivoryUiServer = new k8s.core.v1.Service(ivoryUiName, {
 });
 
 const ingressName = "ingress";
-new k8s.networking.v1.Ingress(ingressName, {
+const ingress = new k8s.networking.v1.Ingress(ingressName, {
   metadata: {
     annotations: {
       "kubernetes.io/ingress.class": "nginx",
@@ -209,6 +209,8 @@ new k8s.networking.v1.Ingress(ingressName, {
     ],
   },
 });
+
+export const ingressIp = ingress.status.loadBalancer.ingress[0].ip;
 
 const nginxIngress = new k8s.helm.v3.Chart("nginx-ingress", {
   chart: "nginx-ingress",
