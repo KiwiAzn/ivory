@@ -210,11 +210,19 @@ const ingress = new k8s.networking.v1.Ingress(ingressName, {
   },
 });
 
-export const ingressIp = ingress.status.loadBalancer.ingress[0].ip;
-
-const nginxIngress = new k8s.helm.v3.Chart("nginx-ingress", {
+const nginxNamespace = new k8s.core.v1.Namespace("nginx-ns");
+const nginx = new k8s.helm.v3.Release("nginx-ingress", {
   chart: "nginx-ingress",
-  fetchOpts: {
+  repositoryOpts: {
     repo: "https://charts.helm.sh/stable/",
   },
+  namespace: nginxNamespace.metadata.name,
+  skipAwait: true,
 });
+
+const nginxService = k8s.core.v1.Service.get(
+  "nginx-ingress-controller",
+  pulumi.interpolate`${nginx.status.namespace}/${nginx.status.name}-nginx-ingress-controller`
+);
+
+export const publicIp = nginxService.status.loadBalancer.ingress[0].ip;
