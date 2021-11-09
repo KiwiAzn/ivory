@@ -1,15 +1,14 @@
-name: Pull Request
+name: Pull Request Closed
 on:
   pull_request:
     branches:
       - main
     types:
-      - opened
-      - synchronize
+      - closed
 
 jobs:
   preview:
-    name: Build and deploy
+    name: Teardown deployment
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -19,7 +18,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 14.x
-      - run: yarn
       - name: Azure Login
         uses: azure/login@v1
         with:
@@ -33,7 +31,7 @@ jobs:
             chmod 444 $GITHUB_WORKSPACE/infrastructure/kubeconfig
       - uses: pulumi/actions@v3
         with:
-          command: up
+          command: destroy
           stack-name: ${{ github.head_ref }}
           work-dir: ./infrastructure
           upsert: true
