@@ -29,7 +29,6 @@ const redis = new k8s.helm.v3.Release("redis", {
       create: true,
     },
   },
-  skipAwait: true,
 });
 
 const srv = k8s.core.v1.Service.get(
@@ -232,7 +231,6 @@ const nginx = new k8s.helm.v3.Release("nginx-ingress", {
     repo: "https://charts.helm.sh/stable/",
   },
   namespace: nginxNamespace.metadata.name,
-  skipAwait: true,
 });
 
 const nginxService = k8s.core.v1.Service.get(
