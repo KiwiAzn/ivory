@@ -35,7 +35,6 @@ jobs:
           command: destroy
           stack-name: ${{ github.head_ref }}
           work-dir: ./infrastructure
-          upsert: true
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           KUBECONFIG: ./kubeconfig
