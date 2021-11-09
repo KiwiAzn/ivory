@@ -257,3 +257,5 @@ const record = new cloudflare.Record("record", {
   value: publicIp,
   proxied: true,
 });
+
+export const hostname = record.hostname;
