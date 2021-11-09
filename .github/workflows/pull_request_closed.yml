@@ -1,11 +1,14 @@
-name: Main
+name: Pull Request Closed
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types:
+      - closed
+
 jobs:
   preview:
-    name: Update
+    name: Teardown deployment
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -29,9 +32,11 @@ jobs:
             chmod 444 $GITHUB_WORKSPACE/infrastructure/kubeconfig
       - uses: pulumi/actions@v3
         with:
-          command: up
-          stack-name: production
+          command: destroy
+          stack-name: ${{ github.head_ref }}
           work-dir: ./infrastructure
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           KUBECONFIG: ./kubeconfig
+          BRANCH_NAME: ${{ github.head_ref }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

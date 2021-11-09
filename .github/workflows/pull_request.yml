@@ -1,11 +1,16 @@
-name: Main
+name: Pull Request
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+
 jobs:
   preview:
-    name: Update
+    name: Build and deploy
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -30,8 +35,11 @@ jobs:
       - uses: pulumi/actions@v3
         with:
           command: up
-          stack-name: production
+          stack-name: ${{ github.head_ref }}
           work-dir: ./infrastructure
+          upsert: true
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           KUBECONFIG: ./kubeconfig
+          BRANCH_NAME: ${{ github.head_ref }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

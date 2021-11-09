@@ -3,6 +3,7 @@ import * as pulumi from "@pulumi/pulumi";
 import * as random from "@pulumi/random";
 import * as k8s from "@pulumi/kubernetes";
 import * as docker from "@pulumi/docker";
+import * as cloudflare from "@pulumi/cloudflare";
 
 // Create a password
 const pass = new random.RandomPassword("pass", { length: 10 });
@@ -11,13 +12,13 @@ new k8s.Provider("kubernetes-provider", {
   cluster: "ivory_aks",
 });
 
-const namespace = new k8s.core.v1.Namespace("redis-ns");
+const redisNamespace = new k8s.core.v1.Namespace("redis-ns");
 const redis = new k8s.helm.v3.Release("redis", {
   chart: "redis",
   repositoryOpts: {
     repo: "https://charts.bitnami.com/bitnami",
   },
-  namespace: namespace.metadata.name,
+  namespace: redisNamespace.metadata.name,
   values: {
     global: {
       redis: {
@@ -28,7 +29,6 @@ const redis = new k8s.helm.v3.Release("redis", {
       create: true,
     },
   },
-  skipAwait: true,
 });
 
 const srv = k8s.core.v1.Service.get(
@@ -44,6 +44,8 @@ const containerRegistryAuth: docker.ImageRegistry = {
   password: "C37dFUdxLF98Xv3If/q=90ajnHN6BMKW",
 };
 
+const ivoryNameSpace = new k8s.core.v1.Namespace("ivory-ns");
+
 const ivoryDiceRoomName = "ivory-dice-room";
 const ivoryDiceRoomAppLabels = { app: ivoryDiceRoomName };
 
@@ -57,6 +59,9 @@ const ivoryDiceRoomImage = new docker.Image(ivoryDiceRoomName, {
 });
 
 const ivoryDiceRoomDeployment = new k8s.apps.v1.Deployment(ivoryDiceRoomName, {
+  metadata: {
+    namespace: ivoryNameSpace.metadata.name,
+  },
   spec: {
     selector: { matchLabels: ivoryDiceRoomAppLabels },
     replicas: 1,
@@ -91,7 +96,10 @@ const ivoryDiceRoomDeployment = new k8s.apps.v1.Deployment(ivoryDiceRoomName, {
 });
 
 const ivoryDiceRoomService = new k8s.core.v1.Service(ivoryDiceRoomName, {
-  metadata: { labels: ivoryDiceRoomDeployment.spec.template.metadata.labels },
+  metadata: {
+    labels: ivoryDiceRoomDeployment.spec.template.metadata.labels,
+    namespace: ivoryNameSpace.metadata.name,
+  },
   spec: {
     type: "ClusterIP",
     ports: [{ port: 8080, targetPort: 8080, protocol: "TCP" }],
@@ -112,6 +120,9 @@ const ivoryUiImage = new docker.Image(ivoryUiName, {
 });
 
 const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
+  metadata: {
+    namespace: ivoryNameSpace.metadata.name,
+  },
   spec: {
     selector: { matchLabels: ivoryAppLabels },
     replicas: 1,
@@ -142,7 +153,10 @@ const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
 });
 
 const ivoryUiServer = new k8s.core.v1.Service(ivoryUiName, {
-  metadata: { labels: ivoryUiDeployment.spec.template.metadata.labels },
+  metadata: {
+    labels: ivoryUiDeployment.spec.template.metadata.labels,
+    namespace: ivoryNameSpace.metadata.name,
+  },
   spec: {
     type: "ClusterIP",
     ports: [{ port: 3000, targetPort: 3000, protocol: "TCP" }],
@@ -217,7 +231,6 @@ const nginx = new k8s.helm.v3.Release("nginx-ingress", {
     repo: "https://charts.helm.sh/stable/",
   },
   namespace: nginxNamespace.metadata.name,
-  skipAwait: true,
 });
 
 const nginxService = k8s.core.v1.Service.get(
@@ -226,3 +239,21 @@ const nginxService = k8s.core.v1.Service.get(
 );
 
 export const publicIp = nginxService.status.loadBalancer.ingress[0].ip;
+
+const ivoryDiceAppZone = pulumi.output(
+  cloudflare.getZones({
+    filter: {
+      name: "ivorydice.app",
+    },
+  })
+);
+
+const record = new cloudflare.Record("record", {
+  name: process.env.BRANCH_NAME ?? "dev",
+  zoneId: ivoryDiceAppZone.zones[0].id as pulumi.Input<string>,
+  type: "A",
+  value: publicIp,
+  proxied: true,
+});
+
+export const hostname = record.hostname;
