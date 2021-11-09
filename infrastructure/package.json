@@ -4,6 +4,7 @@
     "@types/node": "^10.0.0"
   },
   "dependencies": {
+    "@pulumi/cloudflare": "^4.0.0",
     "@pulumi/docker": "^3.1.0",
     "@pulumi/kubernetes": "^3.8.3",
     "@pulumi/kubernetesx": "^0.1.5",

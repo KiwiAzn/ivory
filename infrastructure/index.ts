@@ -3,6 +3,7 @@ import * as pulumi from "@pulumi/pulumi";
 import * as random from "@pulumi/random";
 import * as k8s from "@pulumi/kubernetes";
 import * as docker from "@pulumi/docker";
+import * as cloudflare from "@pulumi/cloudflare";
 
 // Create a password
 const pass = new random.RandomPassword("pass", { length: 10 });
@@ -240,3 +241,18 @@ const nginxService = k8s.core.v1.Service.get(
 );
 
 export const publicIp = nginxService.status.loadBalancer.ingress[0].ip;
+
+const ivoryDiceAppZone = pulumi.output(
+  cloudflare.getZones({
+    filter: {
+      name: "ivorydice.app",
+    },
+  })
+);
+
+const record = new cloudflare.Record("sample-record", {
+  name: process.env.BRANCH_NAME ?? "dev",
+  zoneId: ivoryDiceAppZone.id,
+  type: "A",
+  value: publicIp,
+});
