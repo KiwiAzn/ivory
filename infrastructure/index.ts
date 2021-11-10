@@ -7,7 +7,6 @@ import * as cloudflare from "@pulumi/cloudflare";
 
 const branchName = process.env.BRANCH_NAME ?? "main";
 
-
 // Create a password
 const pass = new random.RandomPassword("pass", { length: 10 });
 
@@ -33,6 +32,7 @@ const redis = new k8s.helm.v3.Release("redis", {
       create: true,
     },
   },
+  skipAwait: true,
 });
 
 const srv = k8s.core.v1.Service.get(
