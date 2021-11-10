@@ -30,6 +30,7 @@ jobs:
         with:
           azcliversion: 2.0.72
           inlineScript: |
+            az account list --query "[].{Name:name, IsDefault:isDefault}"
             az aks get-credentials --resource-group IvoryRG --name ivory_aks --file $GITHUB_WORKSPACE/infrastructure/kubeconfig
             chmod 444 $GITHUB_WORKSPACE/infrastructure/kubeconfig
       - uses: pulumi/actions@v3
