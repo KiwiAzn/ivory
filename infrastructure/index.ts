@@ -14,13 +14,14 @@ new k8s.Provider("kubernetes-provider", {
   cluster: "ivory_aks",
 });
 
-const redisNamespace = new k8s.core.v1.Namespace("redis-ns");
+const namespace = new k8s.core.v1.Namespace(branchName);
+
 const redis = new k8s.helm.v3.Release("redis", {
   chart: "redis",
   repositoryOpts: {
     repo: "https://charts.bitnami.com/bitnami",
   },
-  namespace: redisNamespace.metadata.name,
+  namespace: namespace.metadata.name,
   values: {
     global: {
       redis: {
@@ -63,7 +64,10 @@ const ivoryDiceRoomDeployment = new k8s.apps.v1.Deployment(ivoryDiceRoomName, {
     selector: { matchLabels: ivoryDiceRoomAppLabels },
     replicas: 1,
     template: {
-      metadata: { labels: ivoryDiceRoomAppLabels },
+      metadata: {
+        labels: ivoryDiceRoomAppLabels,
+        namespace: namespace.metadata.namespace,
+      },
       spec: {
         hostname: ivoryDiceRoomName,
         containers: [
@@ -95,6 +99,7 @@ const ivoryDiceRoomDeployment = new k8s.apps.v1.Deployment(ivoryDiceRoomName, {
 const ivoryDiceRoomService = new k8s.core.v1.Service(ivoryDiceRoomName, {
   metadata: {
     labels: ivoryDiceRoomDeployment.spec.template.metadata.labels,
+    namespace: namespace.metadata.namespace,
   },
   spec: {
     type: "ClusterIP",
@@ -120,7 +125,10 @@ const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
     selector: { matchLabels: ivoryAppLabels },
     replicas: 1,
     template: {
-      metadata: { labels: ivoryAppLabels },
+      metadata: {
+        labels: ivoryAppLabels,
+        namespace: namespace.metadata.namespace,
+      },
       spec: {
         hostname: ivoryUiName,
         containers: [
@@ -148,6 +156,7 @@ const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
 const ivoryUiServer = new k8s.core.v1.Service(ivoryUiName, {
   metadata: {
     labels: ivoryUiDeployment.spec.template.metadata.labels,
+    namespace: namespace.metadata.namespace,
   },
   spec: {
     type: "ClusterIP",
@@ -157,7 +166,7 @@ const ivoryUiServer = new k8s.core.v1.Service(ivoryUiName, {
 });
 
 const ruleHost =
-  branchName !== "main" ? `${branchName}.ivorydice.app` : undefined;
+  branchName !== "main" ? `${branchName}.ivorydice.app` : "ivorydice.app";
 
 const ingressName = "ingress";
 const ingress = new k8s.networking.v1.Ingress(ingressName, {
@@ -168,6 +177,7 @@ const ingress = new k8s.networking.v1.Ingress(ingressName, {
       "nginx.ingress.kubernetes.io/rewrite-target": "/$1",
       "nginx.ingress.kubernetes.io/enable-rewrite-log": "true",
     },
+    namespace: namespace.metadata.namespace,
   },
   spec: {
     defaultBackend: {
@@ -221,13 +231,12 @@ const ingress = new k8s.networking.v1.Ingress(ingressName, {
   },
 });
 
-const nginxNamespace = new k8s.core.v1.Namespace("nginx-ns");
 const nginx = new k8s.helm.v3.Release("nginx-ingress", {
   chart: "nginx-ingress",
   repositoryOpts: {
     repo: "https://charts.helm.sh/stable/",
   },
-  namespace: nginxNamespace.metadata.name,
+  namespace: namespace.metadata.name,
 });
 
 const nginxService = k8s.core.v1.Service.get(
