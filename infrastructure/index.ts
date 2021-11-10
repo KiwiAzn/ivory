@@ -70,7 +70,6 @@ const ivoryDiceRoomDeployment = new k8s.apps.v1.Deployment(ivoryDiceRoomName, {
     template: {
       metadata: {
         labels: ivoryDiceRoomAppLabels,
-        namespace: namespace.metadata.namespace,
       },
       spec: {
         hostname: ivoryDiceRoomName,
@@ -134,7 +133,6 @@ const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
     template: {
       metadata: {
         labels: ivoryAppLabels,
-        namespace: namespace.metadata.namespace,
       },
       spec: {
         hostname: ivoryUiName,
