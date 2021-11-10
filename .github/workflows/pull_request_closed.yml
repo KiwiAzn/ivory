@@ -26,7 +26,7 @@ jobs:
       - name: Get Kubenetes config from Azure
         uses: azure/CLI@v1
         with:
-          azcliversion: 2.29.1
+          azcliversion: 2.29.2
           inlineScript: |
             az aks get-credentials --resource-group IvoryRG --name ivory_aks --file $GITHUB_WORKSPACE/infrastructure/kubeconfig
             chmod 444 $GITHUB_WORKSPACE/infrastructure/kubeconfig
