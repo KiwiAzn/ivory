@@ -44,8 +44,6 @@ const containerRegistryAuth: docker.ImageRegistry = {
   password: "C37dFUdxLF98Xv3If/q=90ajnHN6BMKW",
 };
 
-const ivoryNameSpace = new k8s.core.v1.Namespace("ivory-ns");
-
 const ivoryDiceRoomName = "ivory-dice-room";
 const ivoryDiceRoomAppLabels = { app: ivoryDiceRoomName };
 
@@ -59,9 +57,6 @@ const ivoryDiceRoomImage = new docker.Image(ivoryDiceRoomName, {
 });
 
 const ivoryDiceRoomDeployment = new k8s.apps.v1.Deployment(ivoryDiceRoomName, {
-  metadata: {
-    namespace: ivoryNameSpace.metadata.name,
-  },
   spec: {
     selector: { matchLabels: ivoryDiceRoomAppLabels },
     replicas: 1,
@@ -98,7 +93,6 @@ const ivoryDiceRoomDeployment = new k8s.apps.v1.Deployment(ivoryDiceRoomName, {
 const ivoryDiceRoomService = new k8s.core.v1.Service(ivoryDiceRoomName, {
   metadata: {
     labels: ivoryDiceRoomDeployment.spec.template.metadata.labels,
-    namespace: ivoryNameSpace.metadata.name,
   },
   spec: {
     type: "ClusterIP",
@@ -120,9 +114,6 @@ const ivoryUiImage = new docker.Image(ivoryUiName, {
 });
 
 const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
-  metadata: {
-    namespace: ivoryNameSpace.metadata.name,
-  },
   spec: {
     selector: { matchLabels: ivoryAppLabels },
     replicas: 1,
@@ -155,7 +146,6 @@ const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
 const ivoryUiServer = new k8s.core.v1.Service(ivoryUiName, {
   metadata: {
     labels: ivoryUiDeployment.spec.template.metadata.labels,
-    namespace: ivoryNameSpace.metadata.name,
   },
   spec: {
     type: "ClusterIP",
