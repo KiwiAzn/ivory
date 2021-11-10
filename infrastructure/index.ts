@@ -14,8 +14,7 @@ new k8s.Provider("kubernetes-provider", {
   cluster: "ivory_aks",
 });
 
-// const namespace = new k8s.core.v1.Namespace(branchName);
-const namespace = { metadata: { name: branchName } };
+const namespace = new k8s.core.v1.Namespace(branchName);
 
 const redis = new k8s.helm.v3.Release("redis", {
   chart: "redis",
@@ -63,7 +62,7 @@ const ivoryDiceRoomImage = new docker.Image(ivoryDiceRoomName, {
 
 const ivoryDiceRoomDeployment = new k8s.apps.v1.Deployment(ivoryDiceRoomName, {
   metadata: {
-    namespace: namespace.metadata.namespace,
+    namespace: namespace.metadata.name,
   },
   spec: {
     selector: { matchLabels: ivoryDiceRoomAppLabels },
@@ -103,7 +102,7 @@ const ivoryDiceRoomDeployment = new k8s.apps.v1.Deployment(ivoryDiceRoomName, {
 const ivoryDiceRoomService = new k8s.core.v1.Service(ivoryDiceRoomName, {
   metadata: {
     labels: ivoryDiceRoomDeployment.spec.template.metadata.labels,
-    namespace: namespace.metadata.namespace,
+    namespace: namespace.metadata.name,
   },
   spec: {
     type: "ClusterIP",
@@ -126,7 +125,7 @@ const ivoryUiImage = new docker.Image(ivoryUiName, {
 
 const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
   metadata: {
-    namespace: namespace.metadata.namespace,
+    namespace: namespace.metadata.name,
   },
   spec: {
     selector: { matchLabels: ivoryAppLabels },
@@ -162,7 +161,7 @@ const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
 const ivoryUiServer = new k8s.core.v1.Service(ivoryUiName, {
   metadata: {
     labels: ivoryUiDeployment.spec.template.metadata.labels,
-    namespace: namespace.metadata.namespace,
+    namespace: namespace.metadata.name,
   },
   spec: {
     type: "ClusterIP",
@@ -183,7 +182,7 @@ const ingress = new k8s.networking.v1.Ingress(ingressName, {
       "nginx.ingress.kubernetes.io/rewrite-target": "/$1",
       "nginx.ingress.kubernetes.io/enable-rewrite-log": "true",
     },
-    namespace: namespace.metadata.namespace,
+    namespace: namespace.metadata.name,
   },
   spec: {
     defaultBackend: {
