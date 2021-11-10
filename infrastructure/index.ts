@@ -61,6 +61,9 @@ const ivoryDiceRoomImage = new docker.Image(ivoryDiceRoomName, {
 });
 
 const ivoryDiceRoomDeployment = new k8s.apps.v1.Deployment(ivoryDiceRoomName, {
+  metadata: {
+    namespace: namespace.metadata.namespace,
+  },
   spec: {
     selector: { matchLabels: ivoryDiceRoomAppLabels },
     replicas: 1,
@@ -122,6 +125,9 @@ const ivoryUiImage = new docker.Image(ivoryUiName, {
 });
 
 const ivoryUiDeployment = new k8s.apps.v1.Deployment(ivoryUiName, {
+  metadata: {
+    namespace: namespace.metadata.namespace,
+  },
   spec: {
     selector: { matchLabels: ivoryAppLabels },
     replicas: 1,
