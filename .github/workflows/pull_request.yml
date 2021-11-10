@@ -25,14 +25,18 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Get Kubenetes config from Azure
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.0.72
-          inlineScript: |
-            az account list --query "[].{Name:name, IsDefault:isDefault}"
-            az aks get-credentials --resource-group IvoryRG --name ivory_aks --file $GITHUB_WORKSPACE/infrastructure/kubeconfig
-            chmod 444 $GITHUB_WORKSPACE/infrastructure/kubeconfig
+      - run: |
+          az account list --query "[].{Name:name, IsDefault:isDefault}"
+          az aks get-credentials --resource-group IvoryRG --name ivory_aks --file $GITHUB_WORKSPACE/infrastructure/kubeconfig
+          chmod 444 $GITHUB_WORKSPACE/infrastructure/kubeconfig
+      # - name: Get Kubenetes config from Azure
+      #   uses: azure/CLI@v1
+      #   with:
+      #     azcliversion: 2.0.72
+      #     inlineScript: |
+      #       az account list --query "[].{Name:name, IsDefault:isDefault}"
+      #       az aks get-credentials --resource-group IvoryRG --name ivory_aks --file $GITHUB_WORKSPACE/infrastructure/kubeconfig
+      #       chmod 444 $GITHUB_WORKSPACE/infrastructure/kubeconfig
       - uses: pulumi/actions@v3
         with:
           command: up
