@@ -14,7 +14,8 @@ new k8s.Provider("kubernetes-provider", {
   cluster: "ivory_aks",
 });
 
-const namespace = new k8s.core.v1.Namespace(branchName);
+// const namespace = new k8s.core.v1.Namespace(branchName);
+const namespace = { metadata: { name: branchName } };
 
 const redis = new k8s.helm.v3.Release("redis", {
   chart: "redis",
