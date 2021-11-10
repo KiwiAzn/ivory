@@ -5,6 +5,8 @@ import * as k8s from "@pulumi/kubernetes";
 import * as docker from "@pulumi/docker";
 import * as cloudflare from "@pulumi/cloudflare";
 
+const branchName = process.env.BRANCH_NAME ?? "main";
+
 // Create a password
 const pass = new random.RandomPassword("pass", { length: 10 });
 
@@ -154,6 +156,9 @@ const ivoryUiServer = new k8s.core.v1.Service(ivoryUiName, {
   },
 });
 
+const ruleHost =
+  branchName !== "main" ? `${branchName}.ivorydice.app` : undefined;
+
 const ingressName = "ingress";
 const ingress = new k8s.networking.v1.Ingress(ingressName, {
   metadata: {
@@ -175,6 +180,7 @@ const ingress = new k8s.networking.v1.Ingress(ingressName, {
     },
     rules: [
       {
+        host: ruleHost,
         http: {
           paths: [
             {
@@ -193,6 +199,7 @@ const ingress = new k8s.networking.v1.Ingress(ingressName, {
         },
       },
       {
+        host: ruleHost,
         http: {
           paths: [
             {
@@ -231,8 +238,6 @@ const nginxService = k8s.core.v1.Service.get(
 export const publicIp = nginxService.status.loadBalancer.ingress[0].ip;
 
 let record;
-
-const branchName = process.env.BRANCH_NAME ?? "main";
 
 if (branchName !== "main") {
   const ivoryDiceAppZone = pulumi.output(
