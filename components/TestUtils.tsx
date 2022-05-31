@@ -2,9 +2,7 @@ import React, { FunctionComponent, ReactElement } from "react";
 import { render, RenderOptions } from "@testing-library/react";
 import { IntlProvider } from "react-intl";
 
-const AllTheProviders: FunctionComponent<{ children?: React.ReactNode }> = ({
-  children,
-}) => {
+const AllTheProviders: FunctionComponent = ({ children }) => {
   return <IntlProvider locale="en">{children}</IntlProvider>;
 };
 

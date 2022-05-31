@@ -2,7 +2,6 @@
 FROM node:lts-alpine AS builder
 WORKDIR /app
 COPY . .
-RUN yarn
 RUN yarn build
 # Production image, copy all the files and run next
 FROM node:lts-alpine AS runner
@@ -19,8 +18,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 
 # Yarn dependencies
 COPY --from=builder /app/.yarn ./.yarn
-COPY --from=builder /app/.yarnrc.yml ./
-COPY --from=builder /app/.pnp.cjs ./
+copy --from=builder /app/.yarnrc.yml ./
+copy --from=builder /app/.pnp.cjs ./
 
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/yarn.lock ./
