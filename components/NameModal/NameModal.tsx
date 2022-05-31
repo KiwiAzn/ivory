@@ -58,7 +58,10 @@ const NameModal: FunctionComponent<NameModalProps> = ({
     onClose();
   };
 
-  const initialRef = useRef(null);
+  const initialRef = useRef<HTMLInputElement | null>(null);
+  const { ref: nameRef, ...nameInputProps } = register("name", {
+    required: true,
+  });
 
   return (
     <Modal
@@ -86,10 +89,11 @@ const NameModal: FunctionComponent<NameModalProps> = ({
                   <Input
                     placeholder="John Doe"
                     role="textbox"
-                    {...register("name", {
-                      required: true,
-                    })}
-                    ref={initialRef}
+                    {...nameInputProps}
+                    ref={(instance) => {
+                      nameRef(instance);
+                      initialRef.current = instance;
+                    }}
                   />
                   {errors.name && (
                     <InputRightElement>
