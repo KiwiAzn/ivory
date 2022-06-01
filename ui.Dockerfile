@@ -21,6 +21,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder /app/.yarn ./.yarn
 COPY --from=builder /app/.yarnrc.yml ./
 COPY --from=builder /app/.pnp.cjs ./
+COPY --from=builder /app/.loader.mjs ./
 
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/yarn.lock ./
