@@ -9,6 +9,11 @@ import {
   Button,
   HStack,
   ButtonGroup,
+  Tag,
+  TagCloseButton,
+  TagLabel,
+  Wrap,
+  Skeleton,
 } from "@chakra-ui/react";
 import { DiceRoll } from "rpg-dice-roller";
 import React, { FunctionComponent, useRef } from "react";
@@ -53,6 +58,29 @@ const DynamicAddDiceNotationToFavourites = dynamic(
 const DynamicDiceRoomHandler = dynamic(
   () => import("./DiceRoom/DiceRoomHandler"),
   { ssr: false }
+);
+
+const DynamicFavouriteDiceRolls = dynamic(
+  () => import("./FavouriteDiceRolls"),
+  {
+    ssr: false,
+    loading: () => (
+      <Wrap spacing="4">
+        <Skeleton>
+          <Tag cursor="pointer">
+            <TagLabel userSelect="none">Lorem ipsum</TagLabel>
+            <TagCloseButton />
+          </Tag>
+        </Skeleton>
+        <Skeleton>
+          <Tag cursor="pointer">
+            <TagLabel userSelect="none">dolor sit</TagLabel>
+            <TagCloseButton />
+          </Tag>
+        </Skeleton>
+      </Wrap>
+    ),
+  }
 );
 
 const DiceRoller: FunctionComponent = () => {
@@ -134,7 +162,9 @@ const DiceRoller: FunctionComponent = () => {
           </ButtonGroup>
         </HStack>
       </form>
-      <FavouriteDiceRolls onSelectDiceNotation={handleSelectDiceNotation} />
+      <DynamicFavouriteDiceRolls
+        onSelectDiceNotation={handleSelectDiceNotation}
+      />
       <PreviousDiceRolls onSelectDiceNotation={handleSelectDiceNotation} />
     </VStack>
   );
