@@ -17,7 +17,7 @@ new k8s.Provider("kubernetes-provider", {
 const namespace = new k8s.core.v1.Namespace(branchName);
 
 const redis = new k8s.helm.v3.Release("redis", {
-  chart: "bitnami/redis",
+  chart: "redis",
   repositoryOpts: {
     repo: "https://charts.bitnami.com/bitnami",
   },
