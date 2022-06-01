@@ -23,7 +23,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import dynamic from "next/dynamic";
 import PreviousDiceRolls from "./PreviousDiceRolls";
-import FavouriteDiceRolls from "./FavouriteDiceRolls";
 
 export const HelperTextError: React.FunctionComponent<HelpTextProps> = (
   props

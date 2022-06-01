@@ -19,7 +19,7 @@ const Home: NextPage = () => {
       <LightModeToggle pos="absolute" right="4" top="4" />
       <Container>
         <Hero />
-        <DiceRoller></DiceRoller>
+        <DiceRoller />
       </Container>
     </div>
   );
