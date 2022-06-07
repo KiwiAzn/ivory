@@ -53,7 +53,7 @@ const Hero: React.FunctionComponent = () => (
             "--inverse-index": "calc(calc(var(--stacks) - 1) - var(--index))",
             "--clip-top": "calc(var(--stack-height) * var(--index))",
             "--clip-bottom": "calc(var(--stack-height) * var(--inverse-index))",
-            clipPath: "inset(var(--clip-top) 0 var(--clip-bottom) 0)",
+            clipPath: "inset(var(--clip-top) -10px var(--clip-bottom) -10px)",
             animation: `${stackKeyFrames} 340ms cubic-bezier(.46,.29,0,1.24) 1 backwards calc(var(--index) * 120ms), ${glitchKeyframes} 2s ease infinite 2s alternate-reverse`,
             userSelect: "none",
           },
