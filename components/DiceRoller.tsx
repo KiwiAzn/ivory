@@ -35,8 +35,8 @@ export const validateDiceNotation = (value: string) => {
   try {
     new DiceRoll(value);
     return true;
-  } catch (error) {
-    switch (error.name) {
+  } catch (error: unknown) {
+    switch ((error as Error).name) {
       case "SyntaxError":
         return false;
       default:

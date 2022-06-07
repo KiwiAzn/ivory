@@ -1,4 +1,4 @@
-import { Container, Flex } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import DiceRoller from "../components/DiceRoller";
@@ -19,7 +19,7 @@ const Home: NextPage = () => {
       <LightModeToggle pos="absolute" right="4" top="4" />
       <Container>
         <Hero />
-        <DiceRoller></DiceRoller>
+        <DiceRoller />
       </Container>
     </div>
   );

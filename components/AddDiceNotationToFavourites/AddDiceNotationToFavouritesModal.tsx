@@ -33,132 +33,137 @@ export interface AddDiceNotationToFavouritesProps {
 
 interface AddDiceNotationsToFavouritesFormValues extends SavedDiceRoll {}
 
-const AddDiceNotationToFavouritesModal: FunctionComponent<AddDiceNotationToFavouritesProps> =
-  ({ diceNotation, isOpen, onClose, finalFocusRef }) => {
-    const {
-      register,
-      handleSubmit,
-      setValue,
-      formState: { errors },
-      reset,
-    } = useForm<AddDiceNotationsToFavouritesFormValues>({
-      reValidateMode: "onSubmit",
-    });
-    const [savedDiceRolls, setSavedDiceRolls] = useAtom(savedDiceRollsAtom);
+const AddDiceNotationToFavouritesModal: FunctionComponent<
+  AddDiceNotationToFavouritesProps
+> = ({ diceNotation, isOpen, onClose, finalFocusRef }) => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    reset,
+  } = useForm<AddDiceNotationsToFavouritesFormValues>({
+    reValidateMode: "onSubmit",
+  });
+  const [savedDiceRolls, setSavedDiceRolls] = useAtom(savedDiceRollsAtom);
 
-    useEffect(() => {
-      setValue("diceNotation", diceNotation);
-    }, [diceNotation, setValue]);
+  useEffect(() => {
+    setValue("diceNotation", diceNotation);
+  }, [diceNotation, setValue]);
 
-    const onSubmit: SubmitHandler<AddDiceNotationsToFavouritesFormValues> = ({
-      diceNotation,
-      name,
-    }) => {
-      setSavedDiceRolls([...savedDiceRolls, { diceNotation, name }]);
-      reset();
-      onClose();
-    };
-
-    const initialRef = useRef(null);
-
-    return (
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        initialFocusRef={initialRef}
-        finalFocusRef={finalFocusRef}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <FormattedMessage
-              id="saveDiceNotationModal.title"
-              defaultMessage="Add dice roll to favourites"
-            />
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-              <VStack spacing="4">
-                <FormControl id="name" isInvalid={Boolean(errors?.name)}>
-                  <FormLabel>
-                    <FormattedMessage
-                      id="saveDiceNotationModal.form.name"
-                      defaultMessage="Name"
-                    ></FormattedMessage>
-                  </FormLabel>
-                  <InputGroup>
-                    <Input
-                      placeholder="Initiative"
-                      role="textbox"
-                      {...register("name", {
-                        required: true,
-                      })}
-                      ref={initialRef}
-                    />
-                    {errors.name && (
-                      <InputRightElement>
-                        <WarningTwoIcon color="red.500" />
-                      </InputRightElement>
-                    )}
-                  </InputGroup>
-                  {errors.name && (
-                    <HelperTextError>
-                      <FormattedMessage
-                        id="name.invalidInput"
-                        defaultMessage="Please enter a name for this dice roll"
-                      />
-                    </HelperTextError>
-                  )}
-                </FormControl>
-                <FormControl
-                  id="diceNotation"
-                  isInvalid={Boolean(errors?.diceNotation)}
-                >
-                  <FormLabel>
-                    <FormattedMessage
-                      id="saveDiceNotationModal.form.diceNotation"
-                      defaultMessage="Dice notation"
-                    ></FormattedMessage>
-                  </FormLabel>
-                  <InputGroup>
-                    <Input
-                      placeholder="3d6+1"
-                      role="textbox"
-                      {...register("diceNotation", {
-                        required: true,
-                        validate: {
-                          validDiceNotation: validateDiceNotation,
-                        },
-                      })}
-                    />
-                    {errors.diceNotation && (
-                      <InputRightElement>
-                        <WarningTwoIcon color="red.500" />
-                      </InputRightElement>
-                    )}
-                  </InputGroup>
-                </FormControl>
-              </VStack>
-            </form>
-          </ModalBody>
-          <ModalFooter>
-            <Button mr="3" onClick={onClose}>
-              <FormattedMessage
-                id="savedDiceNotationModal.cancel"
-                defaultMessage="Close"
-              />
-            </Button>
-            <Button onClick={handleSubmit(onSubmit)}>
-              <FormattedMessage
-                id="saveDiceNotationModal.submit"
-                defaultMessage="Add"
-              />
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    );
+  const onSubmit: SubmitHandler<AddDiceNotationsToFavouritesFormValues> = ({
+    diceNotation,
+    name,
+  }) => {
+    setSavedDiceRolls([...savedDiceRolls, { diceNotation, name }]);
+    reset();
+    onClose();
   };
+
+  const initialRef = useRef<HTMLInputElement | null>(null);
+  const { ref: nameRef, ...nameInputProps } = register("name", {
+    required: true,
+  });
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      initialFocusRef={initialRef}
+      finalFocusRef={finalFocusRef}
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>
+          <FormattedMessage
+            id="saveDiceNotationModal.title"
+            defaultMessage="Add dice roll to favourites"
+          />
+        </ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+            <VStack spacing="4">
+              <FormControl id="name" isInvalid={Boolean(errors?.name)}>
+                <FormLabel>
+                  <FormattedMessage
+                    id="saveDiceNotationModal.form.name"
+                    defaultMessage="Name"
+                  ></FormattedMessage>
+                </FormLabel>
+                <InputGroup>
+                  <Input
+                    placeholder="Initiative"
+                    role="textbox"
+                    {...nameInputProps}
+                    ref={(instance) => {
+                      nameRef(instance);
+                      initialRef.current = instance;
+                    }}
+                  />
+                  {errors.name && (
+                    <InputRightElement>
+                      <WarningTwoIcon color="red.500" />
+                    </InputRightElement>
+                  )}
+                </InputGroup>
+                {errors.name && (
+                  <HelperTextError>
+                    <FormattedMessage
+                      id="name.invalidInput"
+                      defaultMessage="Please enter a name for this dice roll"
+                    />
+                  </HelperTextError>
+                )}
+              </FormControl>
+              <FormControl
+                id="diceNotation"
+                isInvalid={Boolean(errors?.diceNotation)}
+              >
+                <FormLabel>
+                  <FormattedMessage
+                    id="saveDiceNotationModal.form.diceNotation"
+                    defaultMessage="Dice notation"
+                  />
+                </FormLabel>
+                <InputGroup>
+                  <Input
+                    placeholder="3d6+1"
+                    role="textbox"
+                    {...register("diceNotation", {
+                      required: true,
+                      validate: {
+                        validDiceNotation: validateDiceNotation,
+                      },
+                    })}
+                  />
+                  {errors.diceNotation && (
+                    <InputRightElement>
+                      <WarningTwoIcon color="red.500" />
+                    </InputRightElement>
+                  )}
+                </InputGroup>
+              </FormControl>
+            </VStack>
+          </form>
+        </ModalBody>
+        <ModalFooter>
+          <Button mr="3" onClick={onClose}>
+            <FormattedMessage
+              id="savedDiceNotationModal.cancel"
+              defaultMessage="Close"
+            />
+          </Button>
+          <Button onClick={handleSubmit(onSubmit)}>
+            <FormattedMessage
+              id="saveDiceNotationModal.submit"
+              defaultMessage="Add"
+            />
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+};
 
 export default AddDiceNotationToFavouritesModal;

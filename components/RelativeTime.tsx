@@ -64,7 +64,11 @@ const RelativeTime: FunctionComponent<RelativeTimeProps> = ({
   }, [now, setNow, timeStamp]);
 
   const message = messagePrefix + getRelativeTimeMessage(timeStamp);
-  return <Text {...other}>{message}</Text>;
+  return (
+    <Text suppressHydrationWarning {...other}>
+      {message}
+    </Text>
+  );
 };
 
 export default RelativeTime;

@@ -7,10 +7,7 @@ import DiceRollerServer from "../../components/DiceRollerServer";
 import Hero from "../../components/Hero";
 import LightModeToggle from "../../components/LightModeToggle";
 import getConfig from "next/config";
-import { useHydrateAtoms } from "jotai/utils";
-import savedDiceRollsAtom, {
-  SavedDiceRoll,
-} from "../../components/atoms/savedDiceRollsAtom";
+import { Provider } from "jotai";
 
 const DynamicNameModalOpener = dynamic(
   () => import("../../components/NameModal/NameModalOpener"),
@@ -30,10 +27,8 @@ const Room: NextPage<Props> = ({ diceRolls }) => {
     })),
   ];
 
-  useHydrateAtoms([diceRollsInitialState]);
-
   return (
-    <div>
+    <Provider initialValues={[diceRollsInitialState]}>
       <Head>
         <title>Ivory - RPG dice roller built for the web</title>
         <meta
@@ -48,7 +43,7 @@ const Room: NextPage<Props> = ({ diceRolls }) => {
         <DiceRollerServer />
       </Container>
       <DynamicNameModalOpener />
-    </div>
+    </Provider>
   );
 };
 
