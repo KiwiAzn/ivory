@@ -57,10 +57,10 @@ const Hero: React.FunctionComponent = () => (
             animation: `${stackKeyFrames} 340ms cubic-bezier(.46,.29,0,1.24) 1 backwards calc(var(--index) * 120ms), ${glitchKeyframes} 2s ease infinite 2s alternate-reverse`,
             userSelect: "none",
           },
-          "& span:nth-child(even)": {
+          "& span:nth-of-type(even)": {
             "--glitch-translate": "8px",
           },
-          "& span:nth-child(odd)": {
+          "& span:nth-of-type(odd)": {
             "--glitch-translate": "-8px",
           },
         }}

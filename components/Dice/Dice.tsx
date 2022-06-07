@@ -111,15 +111,18 @@ const Dice = () => (
 );
 
 const Side: FunctionComponent<BoxProps> = ({ sx, ...props }) => {
-  const backgroundColor = useColorModeValue("black", "white");
-  const borderColor = useColorModeValue("white", "black");
+  const backgroundColor = useColorModeValue("gray.800", "white");
+  const borderColor = useColorModeValue(
+    "--chakra-colors-white",
+    "--chakra-colors-gray-800"
+  );
   return (
     <Box
       {...props}
       p={2}
       sx={{
         background: backgroundColor,
-        border: `1px solid ${borderColor}`,
+        border: `1px solid var(${borderColor})`,
         opacity: 1,
         position: "absolute",
         width: "100%",
@@ -131,7 +134,7 @@ const Side: FunctionComponent<BoxProps> = ({ sx, ...props }) => {
 };
 
 const Dot: FunctionComponent<BoxProps> = ({ sx, ...props }) => {
-  const backgroundColor = useColorModeValue("white", "black");
+  const backgroundColor = useColorModeValue("white", "gray.800");
   return (
     <Box
       {...props}
