@@ -1,4 +1,5 @@
-import { Box, Center, Heading, keyframes, Text } from "@chakra-ui/react";
+import { Box, Center, Heading, Hide, keyframes, Text } from "@chakra-ui/react";
+import Dice from "components/Dice/Dice";
 import { CSSProperties } from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -35,7 +36,8 @@ const stackKeyFrames = keyframes`
 
 const Hero: React.FunctionComponent = () => (
   <Center>
-    <Box p="8">
+    <Dice />
+    <Box ml="2" p={["4", "8"]}>
       <Heading
         as="h1"
         size="4xl"

@@ -1,4 +1,10 @@
-import { Box, BoxProps, Flex, GridItem, keyframes } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Flex,
+  keyframes,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { FunctionComponent } from "react";
 
 const rotateKeyframes = keyframes`
@@ -9,14 +15,18 @@ const rotateKeyframes = keyframes`
 const Dice = () => (
   <Box
     sx={{
-      animation: `${rotateKeyframes} 10s linear infinite`,
-      width: "144px",
-      height: "144px",
+      "--dice-size": "64px",
+      animation: `${rotateKeyframes} 20s linear infinite`,
+      width: "var(--dice-size)",
+      height: "var(--dice-size)",
       transform: "rotate3d(1, 1, 0, 60deg)",
       transformStyle: "preserve-3d",
+      flex: "none",
     }}
   >
-    <Side sx={{ transform: "rotateX(0deg) translateZ(15vmin)" }}>
+    <Side
+      sx={{ transform: "rotateX(0deg) translateZ(calc(var(--dice-size)/2))" }}
+    >
       <Flex
         sx={{ width: "100%", height: "100%" }}
         align="center"
@@ -25,20 +35,26 @@ const Dice = () => (
         <Dot />
       </Flex>
     </Side>
-    <Side sx={{ transform: "rotateY(270deg) translateZ(15vmin)" }}>
+    <Side
+      sx={{ transform: "rotateY(270deg) translateZ(calc(var(--dice-size)/2))" }}
+    >
       <Flex sx={{ width: "100%", height: "100%" }} justify="space-between">
         <Dot />
         <Dot sx={{ alignSelf: "flex-end" }} />
       </Flex>
     </Side>
-    <Side sx={{ transform: "rotateX(270deg) translateZ(15vmin)" }}>
+    <Side
+      sx={{ transform: "rotateX(270deg) translateZ(calc(var(--dice-size)/2))" }}
+    >
       <Flex sx={{ width: "100%", height: "100%" }} justify="space-between">
         <Dot />
         <Dot sx={{ alignSelf: "center" }} />
         <Dot sx={{ alignSelf: "flex-end" }} />
       </Flex>
     </Side>
-    <Side sx={{ transform: "rotateX(90deg) translateZ(15vmin)" }}>
+    <Side
+      sx={{ transform: "rotateX(90deg) translateZ(calc(var(--dice-size)/2))" }}
+    >
       <Flex
         direction="column"
         justify="space-between"
@@ -54,7 +70,9 @@ const Dice = () => (
         </Flex>
       </Flex>
     </Side>
-    <Side sx={{ transform: "rotateY(90deg) translateZ(15vmin)" }}>
+    <Side
+      sx={{ transform: "rotateY(90deg) translateZ(calc(var(--dice-size)/2))" }}
+    >
       <Flex justify="space-between">
         <Dot />
         <Dot />
@@ -67,7 +85,9 @@ const Dice = () => (
         <Dot />
       </Flex>
     </Side>
-    <Side sx={{ transform: "rotateX(180deg) translateZ(15vmin)" }}>
+    <Side
+      sx={{ transform: "rotateX(180deg) translateZ(calc(var(--dice-size)/2))" }}
+    >
       <Flex
         direction="column"
         justify="space-between"
@@ -90,31 +110,40 @@ const Dice = () => (
   </Box>
 );
 
-const Side: FunctionComponent<BoxProps> = ({ sx, ...props }) => (
-  <Box
-    {...props}
-    sx={{
-      background: "var(--chakra-colors-chakra-body-text)",
-      position: "absolute",
-      width: "100%",
-      height: "100%",
-      padding: 4,
-      ...sx,
-    }}
-  />
-);
+const Side: FunctionComponent<BoxProps> = ({ sx, ...props }) => {
+  const backgroundColor = useColorModeValue("black", "white");
+  const borderColor = useColorModeValue("white", "black");
+  return (
+    <Box
+      {...props}
+      p={2}
+      sx={{
+        background: backgroundColor,
+        border: `1px solid ${borderColor}`,
+        opacity: 1,
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        ...sx,
+      }}
+    />
+  );
+};
 
-const Dot: FunctionComponent<BoxProps> = ({ sx, ...props }) => (
-  <Box
-    {...props}
-    sx={{
-      width: 8,
-      height: 8,
-      borderRadius: "50%",
-      backgroundColor: "var(--chakra-colors-chakra-body-bg)",
-      ...sx,
-    }}
-  />
-);
+const Dot: FunctionComponent<BoxProps> = ({ sx, ...props }) => {
+  const backgroundColor = useColorModeValue("white", "black");
+  return (
+    <Box
+      {...props}
+      sx={{
+        width: 4,
+        height: 4,
+        borderRadius: "50%",
+        backgroundColor: backgroundColor,
+        ...sx,
+      }}
+    />
+  );
+};
 
 export default Dice;
