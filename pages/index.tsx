@@ -2,7 +2,7 @@ import { Container } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import DiceRoller from "../components/DiceRoller";
-import Hero from "../components/Hero";
+import Hero from "../components/Hero/Hero";
 import LightModeToggle from "../components/LightModeToggle";
 
 const Home: NextPage = () => {
