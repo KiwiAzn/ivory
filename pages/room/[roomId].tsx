@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { diceRollsAtom, DiceRoll } from "../../components/atoms";
 import DiceRollerServer from "../../components/DiceRollerServer";
-import Hero from "../../components/Hero";
+import Hero from "../../components/Hero/Hero";
 import LightModeToggle from "../../components/LightModeToggle";
 import getConfig from "next/config";
 import { Provider } from "jotai";
