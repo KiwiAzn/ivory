@@ -27,6 +27,7 @@
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.31.3",
     "react-intl": "^5.25.1",
+    "react-spring": "^9.4.5",
     "rpg-dice-roller": "^5.0.0"
   },
   "devDependencies": {
