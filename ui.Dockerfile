@@ -2,7 +2,7 @@
 FROM node:lts-alpine AS builder
 WORKDIR /app
 COPY . .
-RUN yarn
+RUN yarn --mode=skip-build
 RUN yarn build
 # Production image, copy all the files and run next
 FROM node:lts-alpine AS runner
