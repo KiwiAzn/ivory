@@ -171,7 +171,7 @@ const ivoryUiServer = new k8s.core.v1.Service(ivoryUiName, {
 });
 
 const ruleHost =
-  branchName !== "main" ? `${branchName}.ivorydice.app` : "ivorydice.app";
+  branchName !== "main" ? `${branchName}.ivorydice.online` : "ivorydice.online";
 
 const ingressName = "ingress";
 const ingress = new k8s.networking.v1.Ingress(ingressName, {
@@ -257,7 +257,7 @@ if (branchName !== "main") {
   const ivoryDiceAppZone = pulumi.output(
     cloudflare.getZones({
       filter: {
-        name: "ivorydice.app",
+        name: "ivorydice.online",
       },
     })
   );
@@ -271,4 +271,4 @@ if (branchName !== "main") {
   });
 }
 
-export const hostname = record?.hostname ?? "https://ivorydice.app";
+export const hostname = record?.hostname ?? "https://ivorydice.online";
