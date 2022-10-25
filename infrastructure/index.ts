@@ -173,9 +173,7 @@ const ivoryUiServer = new k8s.core.v1.Service(ivoryUiName, {
 const ruleHost =
   branchName !== "main" ? `${branchName}.ivorydice.online` : "ivorydice.online";
 
-const roleRef = new k8s.core.v1.ref();
-
-let ingressRole = new k8s.rbac.v1.Role("ingress-role", {
+const ingressRole = new k8s.rbac.v1.Role("ingress-role", {
   metadata: { namespace: namespace.metadata.name },
   rules: [
     {
@@ -186,7 +184,7 @@ let ingressRole = new k8s.rbac.v1.Role("ingress-role", {
   ],
 });
 
-let ingressGroupRoleBinding = new k8s.rbac.v1.RoleBinding(
+const ingressGroupRoleBinding = new k8s.rbac.v1.RoleBinding(
   "ingress-role-binding",
   {
     metadata: { namespace: namespace.metadata.name },
