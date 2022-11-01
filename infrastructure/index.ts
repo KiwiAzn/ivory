@@ -139,7 +139,7 @@ const ivoryServerApp = new web.WebApp(ivoryDiceRoomName, {
     alwaysOn: true,
     linuxFxVersion: pulumi.interpolate`DOCKER|${ivoryDiceRoomImage.imageName}`,
   },
-  httpsOnly: true,
+  httpsOnly: false,
 });
 
 const ivoryUiApp = new web.WebApp(ivoryUiName, {
@@ -179,11 +179,11 @@ const ivoryUiApp = new web.WebApp(ivoryUiName, {
     alwaysOn: true,
     linuxFxVersion: pulumi.interpolate`DOCKER|${ivoryUiImage.imageName}`,
   },
-  httpsOnly: true,
+  httpsOnly: false,
 });
 
-export const ivoryServerAppEndpoint = pulumi.interpolate`https://${ivoryServerApp.defaultHostName}`;
-export const ivoryUiAppEndpoint = pulumi.interpolate`https://${ivoryUiApp.defaultHostName}`;
+export const ivoryServerAppEndpoint = pulumi.interpolate`http://${ivoryServerApp.defaultHostName}`;
+export const ivoryUiAppEndpoint = pulumi.interpolate`http://${ivoryUiApp.defaultHostName}`;
 
 const reverseProxyName = "reverse-proxy";
 
@@ -238,7 +238,7 @@ const reverseProxyApp = new web.WebApp(reverseProxyName, {
     alwaysOn: true,
     linuxFxVersion: pulumi.interpolate`DOCKER|${reverseProxy.imageName}`,
   },
-  httpsOnly: true,
+  httpsOnly: false,
 });
 
-export const reverseProxyAppEndpoint = pulumi.interpolate`https://${reverseProxyApp.defaultHostName}`;
+export const reverseProxyAppEndpoint = pulumi.interpolate`http://${reverseProxyApp.defaultHostName}`;
