@@ -16,6 +16,7 @@ server {
     proxy_pass ${API_SERVER_HOST};
 
     proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $connection_upgrade; 
+    proxy_set_header Connection $connection_upgrade;
+    proxy_read_timeout 86400;
   }
 }
