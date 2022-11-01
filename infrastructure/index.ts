@@ -129,7 +129,7 @@ const ivoryServerApp = new web.WebApp(ivoryDiceRoomName, {
       },
       {
         name: "REDIS_PORT",
-        value: redis.port.toString(),
+        value: pulumi.interpolate`${redis.port}`,
       },
       {
         name: "REDIS_PASSWORD",
