@@ -38,49 +38,108 @@ const adminPassword = credentials.apply(
   (credentials) => credentials.passwords![0].value!
 );
 
-const redis = new cache.Redis("redis", {
-  // enableNonSslPort: true,
-  // location: "West US",
-  // minimumTlsVersion: "1.2",
-  // name: "cache1",
-  // redisConfiguration: {
-  //     maxmemoryPolicy: "allkeys-lru",
-  // },
-  // replicasPerMaster: 2,
-  resourceGroupName: resourceGroup.name,
-  // shardCount: 2,
-  sku: {
-    capacity: 1,
-    family: "P",
-    name: "Premium",
+const redis = new cache.Redis(
+  "redis",
+  {
+    enableNonSslPort: true,
+    location: "Australia East",
+    minimumTlsVersion: "1.2",
+    name: "redis3657a468",
+    publicNetworkAccess: "Enabled",
+    redisConfiguration: {
+      maxfragmentationmemoryReserved: "125",
+      maxmemoryDelta: "125",
+      maxmemoryPolicy: "allkeys-lru",
+      maxmemoryReserved: "125",
+    },
+    resourceGroupName: "ivory70ae1963",
+    sku: {
+      capacity: 1,
+      family: "C",
+      name: "Standard",
+    },
   },
-  // staticIP: "192.168.0.5",
-  // subnetId: "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/network1/subnets/subnet1",
-  // zones: ["1"],
-});
+  {
+    protect: true,
+  }
+);
 
 const ivoryDiceRoomName = "ivory-dice-room";
 const ivoryDiceRoomAppLabels = { app: ivoryDiceRoomName };
 
 const ivoryDiceRoomImage = new docker.Image(ivoryDiceRoomName, {
-  imageName: `${containerRegistryAuth.server}/ivory-dice-room`,
+  imageName: pulumi.interpolate`${registry.loginServer}/${ivoryDiceRoomName}`,
   build: {
     context: path.join(__dirname, ".."),
     dockerfile: path.join(__dirname, "..", "diceRoomService.Dockerfile"),
+    extraOptions: ["--platform", "linux/amd64"],
   },
-  registry: containerRegistryAuth,
+  registry: {
+    server: registry.loginServer,
+    username: adminUsername,
+    password: adminPassword,
+  },
 });
 
 const ivoryUiName = "ivory-ui";
 const ivoryAppLabels = { app: ivoryUiName };
 
 const ivoryUiImage = new docker.Image(ivoryUiName, {
-  imageName: `${containerRegistryAuth.server}/ivory-ui`,
+  imageName: pulumi.interpolate`${registry.loginServer}/${ivoryUiName}`,
   build: {
     context: path.join(__dirname, ".."),
     dockerfile: path.join(__dirname, "..", "ui.Dockerfile"),
+    extraOptions: ["--platform", "linux/amd64"],
   },
-  registry: containerRegistryAuth,
+  registry: {
+    server: registry.loginServer,
+    username: adminUsername,
+    password: adminPassword,
+  },
+});
+
+const ivoryServerApp = new web.WebApp(ivoryDiceRoomName, {
+  resourceGroupName: resourceGroup.name,
+  serverFarmId: plan.id,
+  siteConfig: {
+    appSettings: [
+      {
+        name: "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+        value: "false",
+      },
+      {
+        name: "DOCKER_REGISTRY_SERVER_URL",
+        value: pulumi.interpolate`https://${registry.loginServer}`,
+      },
+      {
+        name: "DOCKER_REGISTRY_SERVER_USERNAME",
+        value: adminUsername,
+      },
+      {
+        name: "DOCKER_REGISTRY_SERVER_PASSWORD",
+        value: adminPassword,
+      },
+      {
+        name: "WEBSITES_PORT",
+        value: "8080",
+      },
+      {
+        name: "REDIS_HOST",
+        value: redis.hostName,
+      },
+      {
+        name: "REDIS_PORT",
+        value: redis.port.toString(),
+      },
+      {
+        name: "REDIS_PASSWORD",
+        value: redis.accessKeys.primaryKey,
+      },
+    ],
+    alwaysOn: true,
+    linuxFxVersion: pulumi.interpolate`DOCKER|${ivoryDiceRoomImage.imageName}`,
+  },
+  httpsOnly: true,
 });
 
 const ivoryUiApp = new web.WebApp(ivoryUiName, {
@@ -106,7 +165,7 @@ const ivoryUiApp = new web.WebApp(ivoryUiName, {
       },
       {
         name: "WEBSITES_PORT",
-        value: "80", // Our custom image exposes port 80. Adjust for your app as needed.
+        value: "3000",
       },
       {
         name: "BACKEND_HOST",
@@ -114,7 +173,7 @@ const ivoryUiApp = new web.WebApp(ivoryUiName, {
       },
       {
         name: "BACKEND_PORT",
-        value: "8080",
+        value: "80",
       },
     ],
     alwaysOn: true,
@@ -123,9 +182,26 @@ const ivoryUiApp = new web.WebApp(ivoryUiName, {
   httpsOnly: true,
 });
 
+export const ivoryServerAppEndpoint = pulumi.interpolate`https://${ivoryServerApp.defaultHostName}`;
 export const ivoryUiAppEndpoint = pulumi.interpolate`https://${ivoryUiApp.defaultHostName}`;
 
-const ivoryServerApp = new web.WebApp(ivoryDiceRoomName, {
+const reverseProxyName = "reverse-proxy";
+
+const reverseProxy = new docker.Image(reverseProxyName, {
+  imageName: pulumi.interpolate`${registry.loginServer}/${reverseProxyName}`,
+  build: {
+    context: path.join(__dirname, ".."),
+    dockerfile: path.join(__dirname, "..", "reverseProxy.Dockerfile"),
+    extraOptions: ["--platform", "linux/amd64"],
+  },
+  registry: {
+    server: registry.loginServer,
+    username: adminUsername,
+    password: adminPassword,
+  },
+});
+
+const reverseProxyApp = new web.WebApp(reverseProxyName, {
   resourceGroupName: resourceGroup.name,
   serverFarmId: plan.id,
   siteConfig: {
@@ -148,25 +224,21 @@ const ivoryServerApp = new web.WebApp(ivoryDiceRoomName, {
       },
       {
         name: "WEBSITES_PORT",
-        value: "80", // Our custom image exposes port 80. Adjust for your app as needed.
+        value: "80",
       },
       {
-        name: "REDIS_HOST",
-        value: redis.hostName,
+        name: "UI_SERVER_HOST",
+        value: ivoryUiAppEndpoint,
       },
       {
-        name: "REDIS_PORT",
-        value: redis.port,
-      },
-      {
-        name: "REDIS_PASSWORD",
-        value: redis.accessKeys.primaryKey,
+        name: "API_SERVER_HOST",
+        value: ivoryServerAppEndpoint,
       },
     ],
     alwaysOn: true,
-    linuxFxVersion: pulumi.interpolate`DOCKER|${ivoryDiceRoomImage.imageName}`,
+    linuxFxVersion: pulumi.interpolate`DOCKER|${reverseProxy.imageName}`,
   },
   httpsOnly: true,
 });
 
-export const ivoryServerAppEndpoint = pulumi.interpolate`https://${ivoryServerApp.defaultHostName}`;
+export const reverseProxyAppEndpoint = pulumi.interpolate`https://${reverseProxyApp.defaultHostName}`;
