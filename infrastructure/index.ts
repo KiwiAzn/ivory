@@ -15,8 +15,8 @@ const plan = new web.AppServicePlan("plan", {
   kind: "Linux",
   reserved: true,
   sku: {
-    name: "B1",
-    tier: "Basic",
+    name: "P1v2",
+    tier: "Premium",
   },
 });
 
