@@ -2,4 +2,8 @@ name: ivory
 runtime: nodejs
 description: A minimal Kubernetes TypeScript Pulumi program
 config:
- azure-native:location: australiaeast
+  azure-native:clientId: ''
+  azure-native:clientSecret: ''
+  azure-native:subscriptionId: ''
+  azure-native:tenantId: ''
+  azure-native:location: 'australiaeast'
