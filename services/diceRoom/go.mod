@@ -3,8 +3,7 @@ module github.com/kiwiazn/ivory/services/diceRoom
 go 1.17
 
 require (
-	github.com/gin-gonic/gin v1.7.4
-	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/gin-gonic/gin v1.7.7
 	github.com/go-redis/redis/v8 v8.11.3
 	github.com/gorilla/websocket v1.4.2
 	github.com/kiwiazn/ivory/services/diceRoom/models v0.0.0-00010101000000-000000000000
